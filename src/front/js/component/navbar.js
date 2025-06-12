@@ -1,19 +1,23 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+
 export const Navbar = () => {
 	return (
-		<nav className="navbar navbar-light bg-light">
-			<div className="container">
-				<Link to="/">
-					<span className="navbar-brand mb-0 h1">React Boilerplate</span>
-				</Link>
-				<div className="ml-auto">
-					<Link to="/demo">
-						<button className="btn btn-primary">Check the Context in action</button>
-					</Link>
+		<div className="nav-bar">
+			<nav className="navbar navbar-expand-lg bg-body-tertiary">
+				<div>
+					<a className="navbar-brand" href="#">Log in</a>
 				</div>
-			</div>
-		</nav>
+				<div>
+					<img src="../goat.png" alt="logo" />
+				</div>
+				<div>
+					<input type="text" placeholder="user" style={{ width: '100px', border: 'black solid 1px' }} className="mx-1 rounded-pill px-2" />
+					<input type="password" placeholder="pin" style={{ width: '100px', border: 'black solid 1px' }} className="mx-1 rounded-pill px-2" />
+					<button style={{ width: '50px', border: 'black solid 1px' }} className="mx-1 rounded-pill px-2">go</button>
+				</div>
+			</nav>
+		</div>
 	);
 };
