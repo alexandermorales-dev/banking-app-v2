@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import goatImg from '../../img/goat.png'
 
 export const Navbar = () => {
 	return (
@@ -10,7 +10,7 @@ export const Navbar = () => {
 					<a className="navbar-brand" href="#">Log in</a>
 				</div>
 				<div>
-					<img src="../goat.png" alt="logo" />
+					<img src={goatImg} alt="logo" style={{width:'50px'}}/>
 				</div>
 				<div>
 					<input type="text" placeholder="user" style={{ width: '100px', border: 'black solid 1px' }} className="mx-1 rounded-pill px-2" />
