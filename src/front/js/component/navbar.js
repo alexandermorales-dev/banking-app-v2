@@ -15,7 +15,7 @@ export const Navbar = () => {
 				<div className="d-flex col-4 justify-content-end">
 					<input type="text" placeholder="user" style={{ width: '100px', border: 'black solid 1px' }} className="mx-1 rounded-pill px-2" />
 					<input type="password" placeholder="pin" style={{ width: '100px', border: 'black solid 1px' }} className="mx-1 rounded-pill px-2" />
-					<button style={{ width: '50px', border: 'black solid 1px' }} className="mx-1 rounded-pill px-2">go</button>
+					<button style={{ width: '50px', border: 'black solid 1px' }} className="mx-1 rounded-pill px-2">→</button>
 				</div>
 			</nav>
 		</div>
