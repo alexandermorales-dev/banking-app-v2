@@ -26,23 +26,23 @@ const Signup = () => {
 
     }
     return <>
-        <form >
+        <form className="col-6">
 
             <div className="mb-3 row">
                 <label htmlFor="name" className="col-sm-2 col-form-label">Name</label>
-                <div className="col-4">
+                <div>
                     <input onChange={handleChange} type="text" className="form-control" name='name' id="name" value={formData.name} />
                 </div>
             </div>
             <div className="mb-3 row">
                 <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
-                <div className="col-4">
+                <div>
                     <input onChange={handleChange} type="text" className="form-control" name='email' id="email" value={formData.email} />
                 </div>
             </div>
             <div className="mb-3 row">
                 <label htmlFor="password" className="col-sm-2 col-form-label">Password</label>
-                <div className="col-4">
+                <div>
                     <input onChange={handleChange} type="password" className="form-control" name='password' id="password" value={formData.password} />
                 </div>
             </div>
