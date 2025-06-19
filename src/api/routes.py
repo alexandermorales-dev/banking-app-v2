@@ -36,6 +36,9 @@ def handle_signup():
     if user:
         return jsonify({"message":"user already exists"}), 409
 
+    if not email or not password or not name:
+        return jsonify({"message":"all fields required"}), 401
+
     hashed_password= generate_password_hash(password)
     new_user = User(name=name, email=email, hash_password=hashed_password, is_active=is_active)
 

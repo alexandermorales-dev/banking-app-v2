@@ -20,7 +20,6 @@ const Signup = () => {
     const handleCreateAccount = async (e) => {
         e.preventDefault()
         const res = await actions.createAccount(formData)
-        if (!res) return alert('user already exists')
         alert(res)
         setFormData({ name: '', email: '', password: '' });
 
@@ -31,19 +30,19 @@ const Signup = () => {
         <form className="col-6 card h-100 border-0 shadow rounded-4 p-4 text-center">
 
             <div className="mb-3 row">
-                <label htmlFor="name" className="col-sm-2 col-form-label">Name</label>
+                <label htmlFor="name" className="col-form-label text-start">Name</label>
                 <div>
                     <input onChange={handleChange} type="text" className="form-control" name='name' id="name" value={formData.name} />
                 </div>
             </div>
             <div className="mb-3 row">
-                <label htmlFor="email" className="col-sm-2 col-form-label">Email</label>
+                <label htmlFor="email" className="col-form-label text-start">Email</label>
                 <div>
                     <input onChange={handleChange} type="text" className="form-control" name='email' id="email" value={formData.email} />
                 </div>
             </div>
             <div className="mb-3 row">
-                <label htmlFor="password" className="col-sm-2 col-form-label">Password</label>
+                <label htmlFor="password" className="col-form-label text-start">Password</label>
                 <div>
                     <input onChange={handleChange} type="password" className="form-control" name='password' id="password" value={formData.password} />
                 </div>

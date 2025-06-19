@@ -57,10 +57,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 						body: JSON.stringify(dataToSend),
 					});
 
-					if (!res.ok) {
-						return null
-					}
 					
+
 					const data = await res.json()
 					return data.message
 
