@@ -2,10 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { useContext } from "react";
 import { Context } from "../store/appContext";
+import { useNavigate } from "react-router-dom";
 
 const Signup = () => {
     const { actions, store } = useContext(Context)
     const [formData, setFormData] = useState({ name: '', email: '', password: '' })
+    const navigate = useNavigate()
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -25,8 +27,8 @@ const Signup = () => {
 
 
     }
-    return <>
-        <form className="col-6">
+    return <div className="container-fluid d-flex justify-content-center">
+        <form className="col-6 card h-100 border-0 shadow rounded-4 p-4 text-center">
 
             <div className="mb-3 row">
                 <label htmlFor="name" className="col-sm-2 col-form-label">Name</label>
@@ -48,9 +50,11 @@ const Signup = () => {
             </div>
             <div className="buttons">
                 <button onClick={handleCreateAccount} className="btn btn-primary">Create new account</button>
+                <button onClick={() => navigate('/')} className="btn btn-primary mx-2">Go back</button>
+
             </div>
         </form>
-    </>
+    </div>
 }
 
 export default Signup

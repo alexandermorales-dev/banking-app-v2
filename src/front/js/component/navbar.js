@@ -13,9 +13,9 @@ export const Navbar = () => {
 					<img src={goatImg} alt="logo" style={{ width: '50px' }} />
 				</div>
 				<div className="d-flex col-4 justify-content-end">
-					<input type="text" placeholder="User" style={{ width: '100px', border: 'black solid 1px', padding:'5px' }} className="mx-1 rounded-pill px-2" />
-					<input type="password" placeholder="PIN" style={{ width: '100px', border: 'black solid 1px', padding:'5px' }} className="mx-1 rounded-pill px-2" />
-					<button style={{ width: '50px', border: 'black solid 1px' }} className="mx-1 rounded-pill px-2">→</button>
+					<input type="text" placeholder="User" style={{ width: '100px', padding: '5px' }} className="mx-1 rounded-pill px-2 form-control" />
+					<input type="password" placeholder="PIN" style={{ width: '100px', padding: '5px' }} className="mx-1 rounded-pill px-2 form-control" />
+					<button className="btn btn-light border rounded-pill px-4 py-2 fw-semibold shadow-sm">→</button>
 				</div>
 			</nav>
 		</div>
