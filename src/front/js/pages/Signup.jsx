@@ -26,7 +26,7 @@ const Signup = () => {
 
 
     }
-    return <div className="container-fluid d-flex justify-content-center">
+    return <div className="container-fluid d-flex justify-content-center align-items-center min-vh-100">
         <form className="col-6 card h-100 border-0 shadow rounded-4 p-4 text-center">
 
             <div className="mb-3 row">
