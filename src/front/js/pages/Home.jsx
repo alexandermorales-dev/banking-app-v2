@@ -1,10 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { Navbar } from "../component/navbar";
 
 const Home = () => {
     const navigate = useNavigate();
-    return (
+    return <div>
+        <Navbar />
         <main>
             {/* Hero Section: Banking Focus */}
             <section className="bg-primary text-white text-center py-5 py-md-5 mb-5">
@@ -126,7 +128,7 @@ const Home = () => {
                 </div>
             </section>
         </main>
-    );
+    </div>;
 };
 
 export default Home;

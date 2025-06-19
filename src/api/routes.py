@@ -51,3 +51,20 @@ def handle_signup():
         db.session.rollback() 
         print(f"Error creating user: {e}")
         return jsonify({"message": "Failed to create user"}), 500
+    
+@api.route('/login', methods=['POST'])
+def handle_login():
+    data = request.get_json()
+    email = data.get('email')
+    password = data.get('password')
+
+    user_found = User.query.filter_by(email=email).first()
+
+    if not user_found:
+        return jsonify({'message': 'email not found'})
+
+    if check_password_hash(user_found.hash_password, password):
+        return jsonify({'message': 'login successfull'}), 200
+    else:
+        return jsonify({'message': 'password incorrect'}), 400
+

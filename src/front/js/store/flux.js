@@ -57,7 +57,31 @@ const getState = ({ getStore, getActions, setStore }) => {
 						body: JSON.stringify(dataToSend),
 					});
 
-					
+
+
+					const data = await res.json()
+					return data.message
+
+				} catch (error) {
+					console.log('this is the error: ', error)
+				}
+			},
+			handleLogin: async (userData) => {
+
+				try {
+					const res = await fetch(process.env.BACKEND_URL + "api/login", {
+						method: 'POST',
+						headers: {
+							'Content-Type': 'application/json',
+						},
+						body: JSON.stringify(userData),
+					});
+
+					if (!res.ok) {
+						const errorMsg = await res.json()
+						throw new Error(errorMsg.message)
+
+					}
 
 					const data = await res.json()
 					return data.message
