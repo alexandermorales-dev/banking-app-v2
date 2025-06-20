@@ -64,7 +64,7 @@ def handle_login():
         return jsonify({'message': 'email not found'})
 
     if check_password_hash(user_found.hash_password, password):
-        return jsonify({'message': 'login successfull'}), 200
+        return jsonify({'message': 'login successfull', "current_user": user_found.serialize()}), 200
     else:
         return jsonify({'message': 'password incorrect'}), 400
 

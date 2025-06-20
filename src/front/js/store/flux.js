@@ -84,11 +84,16 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await res.json()
+					console.log(data)
+					setStore({ ...getStore(), currentUser: data.current_user })
 					return data.message
 
 				} catch (error) {
 					console.log('this is the error: ', error)
 				}
+			},
+			handleLogout: () => {
+				setStore({ ...getStore(), currentUser: '' })
 			}
 		},
 
