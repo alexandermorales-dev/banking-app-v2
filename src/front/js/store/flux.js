@@ -85,15 +85,15 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					const data = await res.json()
 					console.log(data)
-					setStore({ ...getStore(), currentUser: data.current_user })
-					return data.message
+					setStore({ ...getStore(), currentUser: data.current_user, token: data.token })
+					return data
 
 				} catch (error) {
 					console.log('this is the error: ', error)
 				}
 			},
 			handleLogout: () => {
-				setStore({ ...getStore(), currentUser: '' })
+				setStore({ ...getStore(), currentUser: '', token: '' })
 			}
 		},
 

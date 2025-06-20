@@ -2,10 +2,12 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
+from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
 from api.models import db, User
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
+
 
 
 api = Blueprint('api', __name__)
@@ -64,7 +66,24 @@ def handle_login():
         return jsonify({'message': 'email not found'})
 
     if check_password_hash(user_found.hash_password, password):
-        return jsonify({'message': 'login successfull', "current_user": user_found.serialize()}), 200
+        access_token = create_access_token(identity=user_found.id)
+
+        return jsonify({'message': 'login successfull', "current_user": user_found.serialize(), 'token': access_token}), 200
     else:
         return jsonify({'message': 'password incorrect'}), 400
 
+@api.route('/dashboard', methods=['GET']) 
+@jwt_required() 
+def get_dashboard_data():
+    current_user_id = get_jwt_identity() 
+    user = User.query.get(current_user_id)
+
+    if not user:
+        return jsonify({"message": "User not found"}), 404 
+
+    user_accounts = [account.serialize() for account in user.accounts]
+    return jsonify({
+        "message": f"Welcome to {user.name}'s dashboard!",
+        "user_email": user.email,
+        "accounts": user_accounts
+    }), 200

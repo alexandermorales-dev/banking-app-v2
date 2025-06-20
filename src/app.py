@@ -3,6 +3,7 @@ This module takes care of starting the API Server, Loading the DB and Adding the
 """
 import os
 from flask import Flask, request, jsonify, url_for, send_from_directory
+from flask_jwt_extended import create_access_token, JWTManager, jwt_required, get_jwt_identity
 from flask_migrate import Migrate
 from flask_swagger import swagger
 from api.utils import APIException, generate_sitemap
@@ -11,6 +12,8 @@ from api.routes import api
 from api.admin import setup_admin
 from api.commands import setup_commands
 from flask_cors import CORS
+from datetime import timedelta
+
 
 # from models import Person
 
@@ -22,13 +25,20 @@ app.url_map.strict_slashes = False
 
 CORS(app)
 
-# database condiguration
+# database configuration
 db_url = os.getenv("DATABASE_URL")
 if db_url is not None:
     app.config['SQLALCHEMY_DATABASE_URI'] = db_url.replace(
         "postgres://", "postgresql://")
 else:
     app.config['SQLALCHEMY_DATABASE_URI'] = "sqlite:////tmp/test.db"
+
+    # --- JWT Configuration ---
+# Set a secret key for JWTs. This should be a strong, random string in production.
+app.config["JWT_SECRET_KEY"] = "super-secret-jwt-key"
+# Optional: Configure token expiration (e.g., 30 minutes)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=3)
+jwt = JWTManager(app)
 
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
