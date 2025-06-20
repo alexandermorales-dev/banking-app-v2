@@ -1,27 +1,36 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 
 const Dashboard = () => {
     const navigate = useNavigate()
-    const { actions, store } = useContext(Context)
-    const currentUser = store.currentUser
-
     const handleLogout = () => {
         actions.handleLogout()
         navigate('/')
     }
 
-    const token = store.token
-    let success = true
+    const { actions, store } = useContext(Context)
+    const currentUser = store.currentUser
+    useEffect(() => {
+        const token = store.token
+
+        const handleDashboard = async () => {
+            const success = await actions.handleDashboard(token)
+            if (!success) return
+
+        }
+
+        handleDashboard()
 
 
-    return ( success ? 
+    }, [])
+
+    return (store.hasAccess ?
         <div className="bg-light min-vh-100 d-flex flex-column text-dark">
             {/* TOP NAVIGATION */}
             <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3 mb-4">
                 <div className="container d-flex justify-content-between align-items-center">
-                    <p className="welcome mb-0 text-muted d-none d-md-block">Welcome </p> {/* Hide on small screens */}
+                    <p className="welcome mb-0 text-muted d-none d-md-block">Welcome {currentUser?.name}</p> {/* Hide on small screens */}
                     {/* Assuming goat_icon.png is in your public folder or accessible via a direct path */}
                     {/* Note: In a real React project, you might import this image: import goatIcon from './path/to/goat_icon.png'; */}
                     <img src="/goat_icon.png" alt="Logo" className="img-fluid" style={{ maxHeight: '45px' }} />
@@ -154,7 +163,11 @@ const Dashboard = () => {
                     You will be logged out in <span className="timer fw-bold text-dark">05:00</span>
                 </p>
             </main>
-        </div> : <div>Unauthorized</div>
+        </div> : <div>
+            <h1> Unauthorized</h1>
+            <button onClick={() => navigate('/')} className="btn btn-primary mx-2">Go back</button>
+
+        </div>
     );
 }
 export default Dashboard

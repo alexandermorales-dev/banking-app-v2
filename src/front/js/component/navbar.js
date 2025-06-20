@@ -23,10 +23,10 @@ export const Navbar = () => {
 		<div className="nav-bar">
 			<nav className="navbar navbar-expand-lg bg-body-tertiary">
 				<div className="col-4">
-					<a className="navbar-brand" href="#">Log in</a>
+					<a className="navbar-brand" href="#">The Banking App</a>
 				</div>
 				<div className="col-4 text-center">
-					<img src={goatImg} alt="logo" style={{ width: '50px' }} />
+					<a href="/"> <img src={goatImg} alt="logo" style={{ width: '50px' }} /></a>
 				</div>
 				<div className="d-flex col-4 justify-content-end">
 					<input ref={emailRef} type="text" placeholder="User" style={{ width: '100px' }} className="mx-1 rounded-pill px-2 form-control p-2" />

@@ -13,7 +13,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 					background: "white",
 					initial: "white"
 				}
-			]
+			],
+			hasAccess: false
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -84,8 +85,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await res.json()
-					console.log(data)
-					setStore({ ...getStore(), currentUser: data.current_user, token: data.token })
+					setStore({ ...getStore(), currentUser: data.current_user, token: data.token, hasAccess: true })
 					return data
 
 				} catch (error) {
@@ -93,7 +93,26 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			handleLogout: () => {
-				setStore({ ...getStore(), currentUser: '', token: '' })
+				setStore({ ...getStore(), currentUser: '', token: '', hasAccess: false })
+			},
+			handleDashboard: async (token) => {
+				const res = await fetch(process.env.BACKEND_URL + "api/dashboard", {
+					method: 'GET',
+					headers: {
+						'Authorization': `Bearer ${token}`,
+						'Content-Type': 'application/json'
+					}
+				})
+
+				if (!res.ok) return
+
+
+				setStore({
+					...getStore(), hasAccess: true
+				})
+
+				const data = await res.json()
+				return data
 			}
 		},
 

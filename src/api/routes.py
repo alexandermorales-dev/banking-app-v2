@@ -66,7 +66,7 @@ def handle_login():
         return jsonify({'message': 'email not found'})
 
     if check_password_hash(user_found.hash_password, password):
-        access_token = create_access_token(identity=user_found.id)
+        access_token = create_access_token(identity=str(user_found.id))
 
         return jsonify({'message': 'login successfull', "current_user": user_found.serialize(), 'token': access_token}), 200
     else:
