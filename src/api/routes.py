@@ -84,8 +84,11 @@ def get_dashboard_data():
         return jsonify({"message": "User not found"}), 404 
 
     user_accounts = [account.serialize() for account in user.accounts]
+
+
     return jsonify({
         "message": f"Welcome to {user.name}'s dashboard!",
         "user_email": user.email,
-        "accounts": user_accounts
+        "accounts": user_accounts 
+        # "transactions":user_transactions
     }), 200

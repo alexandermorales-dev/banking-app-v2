@@ -1,6 +1,7 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
+import goat from '../../img/goat.png'
 
 const Dashboard = () => {
     const navigate = useNavigate()
@@ -16,7 +17,9 @@ const Dashboard = () => {
 
         const handleDashboard = async () => {
             const success = await actions.handleDashboard(token)
-            if (!success) return
+            if (!success) {
+                return
+            }
 
         }
 
@@ -31,9 +34,7 @@ const Dashboard = () => {
             <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3 mb-4">
                 <div className="container d-flex justify-content-between align-items-center">
                     <p className="welcome mb-0 text-muted d-none d-md-block">Welcome {currentUser?.name}</p> {/* Hide on small screens */}
-                    {/* Assuming goat_icon.png is in your public folder or accessible via a direct path */}
-                    {/* Note: In a real React project, you might import this image: import goatIcon from './path/to/goat_icon.png'; */}
-                    <img src="/goat_icon.png" alt="Logo" className="img-fluid" style={{ maxHeight: '45px' }} />
+                    <img src={goat} alt="Logo" className="img-fluid" style={{ maxHeight: '45px' }} />
 
 
                     <button onClick={handleLogout} className="btn btn-danger border rounded-pill px-4 py-2 fw-semibold shadow-sm"> &larr;</button>
@@ -41,6 +42,9 @@ const Dashboard = () => {
             </nav>
 
             <main className="app container flex-grow-1 py-4">
+
+
+
                 {/* BALANCE */}
                 <div className="balance card shadow-sm mb-4 rounded-3 p-4 bg-primary text-white">
                     <div className="d-flex justify-content-between align-items-end">
@@ -56,6 +60,7 @@ const Dashboard = () => {
 
                 {/* MOVEMENTS */}
                 <div className="movements card shadow-sm mb-4 rounded-3">
+
                     <div className="card-body p-0">
                         {/* Movement Row 1 */}
                         <div className="movements__row d-flex justify-content-between align-items-center p-3 border-bottom">
@@ -73,6 +78,64 @@ const Dashboard = () => {
                 </div>
 
                 <div className="row g-4 mb-4">
+                    {/* ACTIONS */}
+
+                    <div className="card-group">
+                        <div className="card">
+                            <div className="row row-cols-1 row-cols-md-3 g-4">
+                                <div className="col">
+                                    <div className="card h-100 d-flex flex-column">
+                                        <div className="card-body d-flex flex-column">
+                                            <h5 className="card-title">Open account</h5>
+                                            <div className="py-4">
+                                                <div className="form-check form-check-inline">
+                                                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" />
+                                                    <label className="form-check-label" htmlFor="exampleRadios1">
+                                                        USD
+                                                    </label>
+                                                </div>
+                                                <div className="form-check form-check-inline">
+                                                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" />
+                                                    <label className="form-check-label" htmlFor="exampleRadios2">
+                                                        EUR
+                                                    </label>
+                                                </div>
+                                                <div className="form-check form-check-inline">
+                                                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" />
+                                                    <label className="form-check-label" htmlFor="exampleRadios3">
+                                                        VES
+                                                    </label>
+                                                </div>
+                                            </div>
+                                            <button type="button" className="btn btn-primary mx-2">Open Account</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col">
+                                    <div className="card h-100 d-flex flex-column">
+                                        <div className="card-body d-flex flex-column">
+                                            <h5 className="card-title">Deposit</h5>
+                                            <div className="flex-grow-1 d-flex align-items-center">
+                                                <input className="form-control rounded-pill px-3 py-2" type="number" />
+                                            </div>
+                                            <button type="button" className="btn btn-success mx-2">Deposit</button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div className="col">
+                                    <div className="card h-100 d-flex flex-column">
+                                        <div className="card-body d-flex flex-column">
+                                            <h5 className="card-title">Withdraw</h5>
+                                            <div className="flex-grow-1 d-flex align-items-center">
+                                                <input className="form-control rounded-pill px-3 py-2" type="number" />
+                                            </div>
+                                            <button type="button" className="btn btn-danger mx-2">Withdraw</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     {/* SUMMARY */}
                     <div className="col-lg-6">
                         <div className="summary card shadow-sm rounded-3 p-4 h-100">
@@ -170,4 +233,4 @@ const Dashboard = () => {
         </div>
     );
 }
-export default Dashboard
+export default Dashboard    

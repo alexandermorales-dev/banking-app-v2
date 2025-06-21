@@ -9,7 +9,7 @@ class User(db.Model):
     """
     User model representing individuals using the banking application.
     """
-    id = db.Column(db.Integer, primary_key=True) # Using db.Integer as per your model
+    id = db.Column(db.Integer, primary_key=True) 
     name = db.Column(db.String(120), unique=False, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     hash_password = db.Column(db.String(255), unique=False, nullable=False)
