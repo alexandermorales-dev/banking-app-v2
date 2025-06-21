@@ -22,7 +22,7 @@ const Signup = () => {
         e.preventDefault()
         const res = await actions.createAccount(formData)
         alert(res)
-        setFormData({ name: '', email: '', password: '' });
+        setFormData({ name: '', email: '', password: '', is_admin: false });
 
 
 

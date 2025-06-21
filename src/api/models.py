@@ -13,6 +13,7 @@ class User(db.Model):
     name = db.Column(db.String(120), unique=False, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
     hash_password = db.Column(db.String(255), unique=False, nullable=False)
+    is_admin = db.Column(db.Boolean(), unique=False, nullable=False)
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
     # Relationship to accounts: One User can have many Accounts
@@ -29,6 +30,7 @@ class User(db.Model):
             "id": self.id,
             "name": self.name,
             "email": self.email,
+            "is_admin": self.is_admin
             # Do not serialize the password, it's a security breach
         }
 

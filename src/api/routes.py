@@ -32,6 +32,8 @@ def handle_signup():
     email= data.get('email')
     password = data.get('password')
     is_active = data.get('is_active', True)
+    is_admin = data.get('is_admin')
+
 
     user = User.query.filter_by(email=email).first()
 
@@ -42,7 +44,7 @@ def handle_signup():
         return jsonify({"message":"all fields required"}), 401
 
     hashed_password= generate_password_hash(password)
-    new_user = User(name=name, email=email, hash_password=hashed_password, is_active=is_active)
+    new_user = User(name=name, email=email, hash_password=hashed_password, is_active=is_active, is_admin=is_admin)
 
     try:
         db.session.add(new_user)
