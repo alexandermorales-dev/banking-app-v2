@@ -101,10 +101,34 @@ def get_dashboard_data():
 
     account= Account.query.filter_by(user_id=user.id).first()
 
+    all_transactions = [mov.serialize() for mov in account.transactions]
+
+    deposits = []
+    withdrawals = [ ]
+
+    for mov in all_transactions: 
+        if mov['type'] == 'deposit':
+            deposits.append(mov['amount'])
+    
+    for mov in all_transactions: 
+        if mov['type'] == 'withdraw':
+            withdrawals.append(mov['amount'])
+    
+    total_deposits = 0
+    total_withdrawals = 0
+
+    for deposit in deposits:
+        total_deposits += float(deposit)
+
+    for withdrawal in withdrawals:
+        total_withdrawals += float(withdrawal)
+
     return jsonify({
         "message": f"Welcome to {user.name}'s dashboard!",
         "user_email": user.email,
-        "balance": account.balance
+        "balance": account.balance, 
+        'deposits': total_deposits, 
+        'withdrawals': total_withdrawals
     }), 200
 
 @api.route('/transactions', methods=['POST']) 
@@ -129,13 +153,34 @@ def add_transaction():
         db.session.add(new_transaction)
         db.session.commit()
 
-        return jsonify({'message': 'deposit successfully made', 'new_balance': account.balance}), 201
+        # return jsonify({'message': 'deposit successfully made', 'new_balance': account.balance}), 201
 
     if transaction_type == 'withdraw' and account.balance > transaction_amount:
-        if not account.balance > transaction_amount:
-            return jsonify({'message':'Amount should be less than current balance'}), 400
+
         account.balance -= transaction_amount
         new_transaction = Transaction(account_id=account.id, type=transaction_type, amount=transaction_amount)
         db.session.add(new_transaction)
         db.session.commit()
-        return jsonify({'message': 'withdrawal successfully made', 'new_balance': account.balance}), 201
+
+    all_transactions = [transaction.serialize() for transaction in account.transactions]
+    
+    deposits = []
+    withdrawals = []
+    for transaction in all_transactions:
+        if transaction['type'] == 'deposit':
+            deposits.append(transaction['amount'])
+        if transaction['type'] == 'withdraw':
+            withdrawals.append(transaction['amount'])
+
+    total_deposits = 0
+    total_withdrawals = 0
+
+    for deposit in deposits:
+        total_deposits += float(deposit)
+
+    for withdrawal in withdrawals:
+        total_withdrawals += float(withdrawal)
+    
+    
+
+    return jsonify({'message': 'withdrawal successfully made', 'new_balance': account.balance, 'transactions': all_transactions, 'total_deposits': total_deposits, 'total_withdrawals': total_withdrawals}), 201

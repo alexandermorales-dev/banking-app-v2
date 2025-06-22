@@ -12,6 +12,8 @@ const Dashboard = () => {
     const currentUserJson = localStorage.getItem('user')
     const currentUserObj = JSON.parse(currentUserJson)
     const balance = parseFloat(store.balance)
+    const deposits = parseFloat(store.totalDeposits)
+    const withdrawals = parseFloat(store.totalWithdrawals)
 
     const handleTransaction = (e) => {
         if (e.target.name === 'deposit' && depositRef.current.value) {
@@ -169,15 +171,15 @@ const Dashboard = () => {
                         <div className="summary card shadow-sm rounded-3 p-4 h-100">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <p className="summary__label mb-0 fw-semibold">In</p>
-                                <p className="summary__value summary__value--in text-success fw-bold fs-5 mb-0">0000€</p>
+                                <p className="summary__value summary__value--in text-success fw-bold fs-5 mb-0">{deposits.toFixed(2)} USD</p>
                             </div>
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <p className="summary__label mb-0 fw-semibold">Out</p>
-                                <p className="summary__value summary__value--out text-danger fw-bold fs-5 mb-0">0000€</p>
+                                <p className="summary__value summary__value--out text-danger fw-bold fs-5 mb-0">{withdrawals.toFixed(2)} USD</p>
                             </div>
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <p className="summary__label mb-0 fw-semibold">Interest</p>
-                                <p className="summary__value summary__value--interest text-info fw-bold fs-5 mb-0">0000€</p>
+                                <p className="summary__value summary__value--interest text-info fw-bold fs-5 mb-0">{(deposits*0.03).toFixed(2)} USD</p>
                             </div>
                             <div className="mt-auto pt-3 border-top">
                                 <button className="btn btn-outline-secondary btn-sm rounded-pill fw-semibold">&downarrow; SORT</button>
