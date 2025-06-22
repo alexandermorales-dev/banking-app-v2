@@ -1,8 +1,8 @@
 import React, { useContext } from "react";
 import { useRef } from "react";
-import goatImg from '../../img/goat.png'
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
+import bank from '../../img/bank-logo.png'
 
 export const Navbar = () => {
 	const { actions, store } = useContext(Context)
@@ -28,7 +28,7 @@ export const Navbar = () => {
 					<a className="navbar-brand" href="#">The Banking App</a>
 				</div>
 				<div className="col-4 text-center">
-					<a href="/"> <img src={goatImg} alt="logo" style={{ width: '50px' }} /></a>
+					<a href="/"> <img src={bank} alt="logo" style={{ width: '50px' }} /></a>
 				</div>
 				<div className="d-flex col-4 justify-content-end">
 					<input ref={emailRef} type="text" placeholder="User" style={{ width: '100px' }} className="mx-1 rounded-pill px-2 form-control p-2" />

@@ -86,10 +86,9 @@ const Home = () => {
                     </div>
                     <div className="col-md-5 order-md-1">
                         <img
-                            src="https://placehold.co/500x300/c5e8fa/333?text=Financial+Tools"
+                            src="https://jaro-website.s3.ap-south-1.amazonaws.com/2024/10/Why-Are-Financial-Management-Tools-Important-1.jpg"
                             className="img-fluid rounded-4 shadow-sm"
                             alt="Personalized Financial Tools"
-                            onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/500x300/c5e8fa/333?text=Image+Unavailable"; }}
                         />
                     </div>
                 </div>
@@ -106,10 +105,10 @@ const Home = () => {
                     </div>
                     <div className="col-md-5">
                         <img
-                            src="https://placehold.co/500x300/c5e8fa/333?text=Rates+Icon"
+                            src="https://cdn.mozo.com.au/images/atwood/481/fixed-interest-rates_content.jpg"
                             className="img-fluid rounded-4 shadow-sm"
                             alt="Competitive Rates"
-                            onError={(e) => { e.target.onerror = null; e.target.src = "https://placehold.co/500x300/c5e8fa/333?text=Image+Unavailable"; }}
+
                         />
                     </div>
                 </div>
