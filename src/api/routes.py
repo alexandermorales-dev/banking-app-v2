@@ -131,4 +131,5 @@ def add_transaction():
     if transaction_type == 'withdraw' and account.balance > transaction_amount:
     
         account.balance -= transaction_amount
+        db.session.commit()
         return jsonify({'message': 'withdrawal successfully made', 'new_balance': account.balance}), 201

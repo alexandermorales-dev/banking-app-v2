@@ -16,9 +16,11 @@ const Dashboard = () => {
     const handleTransaction = (e) => {
         if (e.target.name === 'deposit' && depositRef.current.value) {
             actions.handleTransaction({ type: 'deposit', amount: depositRef.current.value, userId: currentUserObj.id })
+            depositRef.current.value = ''
 
         } else if (e.target.name === 'withdraw' && withdrawRef.current.value) {
             actions.handleTransaction({ type: 'withdraw', amount: withdrawRef.current.value, userId: currentUserObj.id })
+            withdrawRef.current.value = ''
         }
     }
     const handleLogout = () => {
