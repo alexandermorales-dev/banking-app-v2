@@ -14,7 +14,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
-			hasAccess: false
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -82,7 +81,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					if (!res.ok) {
 						const errorMsg = await res.json()
 						return errorMsg.message
-						
+
 
 					}
 
@@ -113,36 +112,29 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				if (!res.ok) return null
 
-
-				setStore({
-					...getStore(), hasAccess: true
-				})
-
 				const data = await res.json()
 				return data
 			},
-			handleTransaction: async (transactionData) => { // Renamed 'transaction' to 'transactionData' for clarity
-				const token = localStorage.getItem('token'); // <--- GET TOKEN FROM LOCAL STORAGE
+			handleTransaction: async (transactionData) => {
+				const token = localStorage.getItem('token');
 				if (!token) {
 					console.error("No authentication token found. Please log in.");
-					// Handle unauthenticated state, e.g., redirect to login
 					return;
 				}
 
 				const res = await fetch(process.env.BACKEND_URL + "api/transactions", {
 					method: 'POST',
 					headers: {
-						'Authorization': `Bearer ${token}`, // <--- USE THE TOKEN FROM LOCAL STORAGE
+						'Authorization': `Bearer ${token}`,
 						'Content-Type': 'application/json',
 					},
-					body: JSON.stringify(transactionData), // <--- SEND ONLY THE TRANSACTION DATA
+					body: JSON.stringify(transactionData),
 				});
 
 				if (!res.ok) {
 					console.error('API request failed:', res.status, res.statusText);
 					const errorDetails = await res.json().catch(() => ({ message: 'No error message from server' }));
 					console.error('Error details:', errorDetails);
-					// You might want to throw an error or return a specific error object
 					throw new Error(errorDetails.message || 'Something went wrong with the transaction.');
 				}
 
