@@ -113,6 +113,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (!res.ok) return null
 
 				const data = await res.json()
+				setStore({ ...getStore(), balance: data.balance })
 				return data
 			},
 			handleTransaction: async (transactionData) => {
@@ -139,7 +140,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 				const data = await res.json();
-				console.log('Transaction successful:', data);
+				console.log(data)
+				if (data.new_balance) {
+					setStore({ ...getStore(), balance: data.new_balance })
+
+				}
 				return data;
 			}
 		},

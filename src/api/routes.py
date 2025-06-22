@@ -99,12 +99,12 @@ def get_dashboard_data():
     if not user:
         return jsonify({"message": "User not found"}), 404 
 
-    # user_accounts = [account.serialize() for account in user.accounts]
+    account= Account.query.filter_by(user_id=user.id).first()
 
     return jsonify({
         "message": f"Welcome to {user.name}'s dashboard!",
         "user_email": user.email,
-        # "accounts": user_accounts 
+        "balance": account.balance
     }), 200
 
 @api.route('/transactions', methods=['POST']) 
@@ -112,7 +112,7 @@ def get_dashboard_data():
 def add_transaction():
     data = request.get_json()
     transaction_type = data.get('type')
-    transaction_amount = data.get('amount')
+    transaction_amount = int(data.get('amount'))
 
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
@@ -125,6 +125,7 @@ def add_transaction():
     if transaction_type == 'deposit' and transaction_amount > 0:
     
         account.balance += transaction_amount
+        db.session.commit()
         return jsonify({'message': 'deposit successfully made', 'new_balance': account.balance}), 201
 
     if transaction_type == 'withdraw' and account.balance > transaction_amount:

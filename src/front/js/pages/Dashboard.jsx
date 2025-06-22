@@ -11,6 +11,7 @@ const Dashboard = () => {
     const token = localStorage.getItem('token')
     const currentUserJson = localStorage.getItem('user')
     const currentUserObj = JSON.parse(currentUserJson)
+    const balance = parseFloat(store.balance)
 
     const handleTransaction = (e) => {
         if (e.target.name === 'deposit' && depositRef.current.value) {
@@ -68,7 +69,7 @@ const Dashboard = () => {
                                 As of <span className="date">05/03/2037</span>
                             </p>
                         </div>
-                        <p className="balance__value display-4 fw-bold mb-0">0000€</p>
+                        <p className="balance__value display-4 fw-bold mb-0">{balance.toFixed(2)} USD</p>
                     </div>
                 </div>
 
