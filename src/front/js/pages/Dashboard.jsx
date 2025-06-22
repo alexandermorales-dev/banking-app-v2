@@ -12,7 +12,6 @@ const Dashboard = () => {
     const currentUserJson = localStorage.getItem('user')
     const currentUserObj = JSON.parse(currentUserJson)
 
-    console.log(currentUserObj)
     const handleTransaction = (e) => {
         if (e.target.name === 'deposit' && depositRef.current.value) {
             actions.handleTransaction({ type: 'deposit', amount: depositRef.current.value, userId: currentUserObj.id })
@@ -31,6 +30,8 @@ const Dashboard = () => {
         const handleDashboard = async () => {
             const success = await actions.handleDashboard(token)
             if (!success) {
+                alert('Please log in')
+                navigate('/')
                 return
             }
 
@@ -241,7 +242,6 @@ const Dashboard = () => {
             </main>
         </div> : <div>
             <h1> Unauthorized</h1>
-            <button onClick={() => navigate('/')} className="btn btn-primary mx-2">Go back</button>
 
         </div>
     );

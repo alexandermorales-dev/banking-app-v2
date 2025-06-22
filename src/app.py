@@ -40,6 +40,19 @@ app.config["JWT_SECRET_KEY"] = "super-secret-jwt-key"
 app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=3)
 jwt = JWTManager(app)
 
+# --- NEW JWT Error Handlers ---
+@jwt.unauthorized_loader
+def unauthorized_response(callback):
+    return jsonify({"message": "Missing Authorization Header or Invalid Token"}), 401
+
+@jwt.invalid_token_loader
+def invalid_token_response(callback):
+    return jsonify({"message": "Signature verification failed or malformed token"}), 401
+
+@jwt.expired_token_loader
+def expired_token_response(callback):
+    return jsonify({"message": "Token has expired"}), 401
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 MIGRATE = Migrate(app, db, compare_type=True)
 db.init_app(app)

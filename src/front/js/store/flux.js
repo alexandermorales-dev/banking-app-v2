@@ -81,7 +81,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					if (!res.ok) {
 						const errorMsg = await res.json()
-						throw new Error(errorMsg.message)
+						return errorMsg.message
+						
 
 					}
 
@@ -110,7 +111,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 				})
 
-				if (!res.ok) return
+				if (!res.ok) return null
 
 
 				setStore({

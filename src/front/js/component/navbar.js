@@ -15,8 +15,10 @@ export const Navbar = () => {
 		const pass = passwordRef.current.value
 
 		const res = await actions.handleLogin({ email: email, password: pass })
-		if (!res) return
-		console.log(res.message)
+		if (!res) {
+			navigate('/')
+		}
+		// console.log(res.message)
 		navigate('/dashboard')
 	}
 	return (
