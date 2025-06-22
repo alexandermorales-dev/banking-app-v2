@@ -61,6 +61,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 
 					const data = await res.json()
+					console.log(data)
 					return data.message
 
 				} catch (error) {
@@ -85,7 +86,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 					}
 
 					const data = await res.json()
-					setStore({ ...getStore(), currentUser: data.current_user, token: data.token, hasAccess: true })
+					setStore({ ...getStore(), currentUser: data.current_user, hasAccess: true })
+					localStorage.setItem('token', data.token)
+					const userInfo = JSON.stringify(data.current_user)
+					localStorage.setItem('user', userInfo)
 					return data
 
 				} catch (error) {
@@ -93,7 +97,8 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			handleLogout: () => {
-				setStore({ ...getStore(), currentUser: '', token: '', hasAccess: false })
+				localStorage.removeItem('token')
+				setStore({ ...getStore(), currentUser: '', hasAccess: false })
 			},
 			handleDashboard: async (token) => {
 				const res = await fetch(process.env.BACKEND_URL + "api/dashboard", {
@@ -113,6 +118,35 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				const data = await res.json()
 				return data
+			},
+			handleTransaction: async (transactionData) => { // Renamed 'transaction' to 'transactionData' for clarity
+				const token = localStorage.getItem('token'); // <--- GET TOKEN FROM LOCAL STORAGE
+				if (!token) {
+					console.error("No authentication token found. Please log in.");
+					// Handle unauthenticated state, e.g., redirect to login
+					return;
+				}
+
+				const res = await fetch(process.env.BACKEND_URL + "api/transactions", {
+					method: 'POST',
+					headers: {
+						'Authorization': `Bearer ${token}`, // <--- USE THE TOKEN FROM LOCAL STORAGE
+						'Content-Type': 'application/json',
+					},
+					body: JSON.stringify(transactionData), // <--- SEND ONLY THE TRANSACTION DATA
+				});
+
+				if (!res.ok) {
+					console.error('API request failed:', res.status, res.statusText);
+					const errorDetails = await res.json().catch(() => ({ message: 'No error message from server' }));
+					console.error('Error details:', errorDetails);
+					// You might want to throw an error or return a specific error object
+					throw new Error(errorDetails.message || 'Something went wrong with the transaction.');
+				}
+
+				const data = await res.json();
+				console.log('Transaction successful:', data);
+				return data;
 			}
 		},
 

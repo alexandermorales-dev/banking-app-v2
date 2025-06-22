@@ -16,7 +16,7 @@ export const Navbar = () => {
 
 		const res = await actions.handleLogin({ email: email, password: pass })
 		if (!res) return
-		alert(res.message)
+		console.log(res.message)
 		navigate('/dashboard')
 	}
 	return (

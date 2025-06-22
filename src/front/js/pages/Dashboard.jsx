@@ -1,19 +1,32 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { Context } from "../store/appContext";
 import goat from '../../img/goat.png'
 
 const Dashboard = () => {
     const navigate = useNavigate()
+    const depositRef = useRef(null)
+    const withdrawRef = useRef(null)
+    const { actions, store } = useContext(Context)
+    const token = localStorage.getItem('token')
+    const currentUserJson = localStorage.getItem('user')
+    const currentUserObj = JSON.parse(currentUserJson)
+
+    console.log(currentUserObj)
+    const handleTransaction = (e) => {
+        if (e.target.name === 'deposit' && depositRef.current.value) {
+            actions.handleTransaction({ type: 'deposit', amount: depositRef.current.value, userId: currentUserObj.id })
+
+        } else if (e.target.name === 'withdraw' && withdrawRef.current.value) {
+            actions.handleTransaction({ type: 'withdraw', amount: withdrawRef.current.value, userId: currentUserObj.id })
+        }
+    }
     const handleLogout = () => {
         actions.handleLogout()
         navigate('/')
     }
 
-    const { actions, store } = useContext(Context)
-    const currentUser = store.currentUser
     useEffect(() => {
-        const token = store.token
 
         const handleDashboard = async () => {
             const success = await actions.handleDashboard(token)
@@ -28,12 +41,12 @@ const Dashboard = () => {
 
     }, [])
 
-    return (store.hasAccess ?
+    return (token ?
         <div className="bg-light min-vh-100 d-flex flex-column text-dark">
             {/* TOP NAVIGATION */}
             <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3 mb-4">
                 <div className="container d-flex justify-content-between align-items-center">
-                    <p className="welcome mb-0 text-muted d-none d-md-block">Welcome {currentUser?.name}</p> {/* Hide on small screens */}
+                    <p className="welcome mb-0 text-muted d-none d-md-block">Welcome {currentUserObj.name}</p> {/* Hide on small screens */}
                     <img src={goat} alt="Logo" className="img-fluid" style={{ maxHeight: '45px' }} />
 
 
@@ -116,9 +129,9 @@ const Dashboard = () => {
                                         <div className="card-body d-flex flex-column">
                                             <h5 className="card-title">Deposit</h5>
                                             <div className="flex-grow-1 d-flex align-items-center">
-                                                <input className="form-control rounded-pill px-3 py-2" type="number" />
+                                                <input className="form-control rounded-pill px-3 py-2" type="number" ref={depositRef} />
                                             </div>
-                                            <button type="button" className="btn btn-success mx-2">Deposit</button>
+                                            <button onClick={handleTransaction} type="button" name="deposit" className="btn btn-success mx-2">Deposit</button>
                                         </div>
                                     </div>
                                 </div>
@@ -127,9 +140,9 @@ const Dashboard = () => {
                                         <div className="card-body d-flex flex-column">
                                             <h5 className="card-title">Withdraw</h5>
                                             <div className="flex-grow-1 d-flex align-items-center">
-                                                <input className="form-control rounded-pill px-3 py-2" type="number" />
+                                                <input className="form-control rounded-pill px-3 py-2" type="number" ref={withdrawRef} />
                                             </div>
-                                            <button type="button" className="btn btn-danger mx-2">Withdraw</button>
+                                            <button onClick={handleTransaction} type="button" name="withdraw" className="btn btn-danger mx-2">Withdraw</button>
                                         </div>
                                     </div>
                                 </div>

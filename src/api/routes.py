@@ -1,9 +1,11 @@
 """
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
+from decimal import Decimal
+import random
 from flask import Flask, request, jsonify, url_for, Blueprint
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-from api.models import db, User
+from api.models import db, User, Account
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -32,7 +34,7 @@ def handle_signup():
     email= data.get('email')
     password = data.get('password')
     is_active = data.get('is_active', True)
-    is_admin = data.get('is_admin')
+    is_admin = data.get('is_admin', False)
 
 
     user = User.query.filter_by(email=email).first()
@@ -41,13 +43,26 @@ def handle_signup():
         return jsonify({"message":"user already exists"}), 409
 
     if not email or not password or not name:
-        return jsonify({"message":"all fields required"}), 401
+        return jsonify({"message":"all fields required"}), 400
 
     hashed_password= generate_password_hash(password)
     new_user = User(name=name, email=email, hash_password=hashed_password, is_active=is_active, is_admin=is_admin)
 
+    
+
     try:
         db.session.add(new_user)
+        db.session.commit()
+        
+        new_account = Account(
+        user_id=new_user.id, # Link to the newly created user
+        account_number=str(random.randint(1000000000, 9999999999)), # Generates a random 10-digit number
+        account_type='checking', 
+        balance=Decimal('0.00'), 
+        currency='USD',
+        status='active'
+    )
+        db.session.add(new_account)
         db.session.commit()
         return jsonify({"message":"user created"}), 201
 
@@ -69,8 +84,9 @@ def handle_login():
 
     if check_password_hash(user_found.hash_password, password):
         access_token = create_access_token(identity=str(user_found.id))
+        user_obj = user_found.serialize()
 
-        return jsonify({'message': 'login successfull', "current_user": user_found.serialize(), 'token': access_token}), 200
+        return jsonify({'message': 'login successfull', "current_user": user_obj, 'token': access_token}), 200
     else:
         return jsonify({'message': 'password incorrect'}), 400
 
@@ -85,10 +101,33 @@ def get_dashboard_data():
 
     user_accounts = [account.serialize() for account in user.accounts]
 
-
     return jsonify({
         "message": f"Welcome to {user.name}'s dashboard!",
         "user_email": user.email,
         "accounts": user_accounts 
-        # "transactions":user_transactions
     }), 200
+
+@api.route('/transactions', methods=['POST']) 
+@jwt_required() 
+def add_transaction():
+    data = request.get_json()
+    transaction_type = data.get('type')
+    transaction_amount = data.get('amount')
+
+    current_user_id = get_jwt_identity()
+    user = User.query.get(current_user_id)
+
+    account = Account.query.filter_by(user_id = user.id).first()
+
+    if not account:
+        return jsonify({"message":"account not found"}), 400
+    
+    if transaction_type == 'deposit' and transaction_amount > 0:
+    
+        account.balance += transaction_amount
+        return jsonify({'message': 'deposit successfully made', 'new_balance': account.balance}), 201
+
+    if transaction_type == 'withdraw' and account.balance > transaction_amount:
+    
+        account.balance -= transaction_amount
+        return jsonify({'message': 'withdrawal successfully made', 'new_balance': account.balance}), 201
