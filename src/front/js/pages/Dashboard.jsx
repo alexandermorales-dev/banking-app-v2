@@ -11,9 +11,11 @@ const Dashboard = () => {
     const token = localStorage.getItem('token')
     const currentUserJson = localStorage.getItem('user')
     const currentUserObj = JSON.parse(currentUserJson)
-    const balance = parseFloat(store.balance)
+    const balance = new Intl.NumberFormat('en-US').format(store.balance)
     const deposits = parseFloat(store.totalDeposits)
     const withdrawals = parseFloat(store.totalWithdrawals)
+    const [hasAccess, setHasAccess] = useState(null)
+
 
     const handleTransaction = (e) => {
         if (e.target.name === 'deposit' && depositRef.current.value) {
@@ -46,10 +48,13 @@ const Dashboard = () => {
         const handleDashboard = async () => {
             const success = await actions.handleDashboard(token)
             if (!success) {
+                setHasAccess(false)
                 alert('Please log in')
                 navigate('/')
                 return
             }
+
+            setHasAccess(true)
 
         }
 
@@ -58,7 +63,7 @@ const Dashboard = () => {
 
     }, [])
 
-    return (token ?
+    return (hasAccess ?
         <div className="bg-light min-vh-100 d-flex flex-column text-dark">
             {/* TOP NAVIGATION */}
             <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3 mb-4">
@@ -84,7 +89,7 @@ const Dashboard = () => {
                                 As of <span className="date">05/03/2037</span>
                             </p>
                         </div>
-                        <p className="balance__value display-4 fw-bold mb-0">{balance.toFixed(2)} USD</p>
+                        <p className="balance__value display-4 fw-bold mb-0">{balance} USD</p>
                     </div>
                 </div>
 
@@ -179,10 +184,10 @@ const Dashboard = () => {
                             </div>
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <p className="summary__label mb-0 fw-semibold">Interest</p>
-                                <p className="summary__value summary__value--interest text-info fw-bold fs-5 mb-0">{(deposits*0.03).toFixed(2)} USD</p>
+                                <p className="summary__value summary__value--interest text-info fw-bold fs-5 mb-0">{(deposits * 0.03).toFixed(2)} USD</p>
                             </div>
                             <div className="mt-auto pt-3 border-top">
-                                <button className="btn btn-outline-secondary btn-sm rounded-pill fw-semibold">&downarrow; SORT</button>
+                                <button className="btn btn-outline-secondary btn-sm rounded-pill fw-semibold">&downarrow;</button>
                             </div>
                         </div>
                     </div>
