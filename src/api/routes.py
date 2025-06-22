@@ -5,7 +5,7 @@ from decimal import Decimal
 import random
 from flask import Flask, request, jsonify, url_for, Blueprint
 from flask_jwt_extended import create_access_token, get_jwt_identity, jwt_required
-from api.models import db, User, Account
+from api.models import Transaction, db, User, Account
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -125,11 +125,17 @@ def add_transaction():
     if transaction_type == 'deposit' and transaction_amount > 0:
     
         account.balance += transaction_amount
+        new_transaction = Transaction(account_id=account.id, type=transaction_type, amount=transaction_amount)
+        db.session.add(new_transaction)
         db.session.commit()
+
         return jsonify({'message': 'deposit successfully made', 'new_balance': account.balance}), 201
 
     if transaction_type == 'withdraw' and account.balance > transaction_amount:
-    
+        if not account.balance > transaction_amount:
+            return jsonify({'message':'Amount should be less than current balance'}), 400
         account.balance -= transaction_amount
+        new_transaction = Transaction(account_id=account.id, type=transaction_type, amount=transaction_amount)
+        db.session.add(new_transaction)
         db.session.commit()
         return jsonify({'message': 'withdrawal successfully made', 'new_balance': account.balance}), 201

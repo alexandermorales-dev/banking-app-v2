@@ -15,12 +15,23 @@ const Dashboard = () => {
 
     const handleTransaction = (e) => {
         if (e.target.name === 'deposit' && depositRef.current.value) {
+            if (depositRef.current.value <= 0) {
+                alert('Amount should be a positive number')
+                depositRef.current.value = ''
+                return
+            }
             actions.handleTransaction({ type: 'deposit', amount: depositRef.current.value, userId: currentUserObj.id })
             depositRef.current.value = ''
 
         } else if (e.target.name === 'withdraw' && withdrawRef.current.value) {
+            if (parseInt(withdrawRef.current.value) > balance) {
+                alert('Amount should be less than current balance')
+                withdrawRef.current.value = ''
+                return
+            }
             actions.handleTransaction({ type: 'withdraw', amount: withdrawRef.current.value, userId: currentUserObj.id })
             withdrawRef.current.value = ''
+
         }
     }
     const handleLogout = () => {
