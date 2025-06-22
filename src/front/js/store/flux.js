@@ -98,6 +98,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			},
 			handleLogout: () => {
 				localStorage.removeItem('token')
+				localStorage.removeItem('user')
 				setStore({ ...getStore(), currentUser: '', hasAccess: false })
 			},
 			handleDashboard: async (token) => {
