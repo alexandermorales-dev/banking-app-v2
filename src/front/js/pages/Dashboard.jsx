@@ -12,10 +12,11 @@ const Dashboard = () => {
     const currentUserJson = localStorage.getItem('user')
     const currentUserObj = JSON.parse(currentUserJson)
     const balance = new Intl.NumberFormat('en-US').format(store.balance)
-    const deposits = parseFloat(store.totalDeposits)
-    const withdrawals = parseFloat(store.totalWithdrawals)
+    const deposits = new Intl.NumberFormat('en-US').format(store.totalDeposits)
+    const withdrawals = new Intl.NumberFormat('en-US').format(store.totalWithdrawals)
+    const interests = parseFloat(deposits) * 0.03
+    const accountNumber = store.accountNumber
     const [hasAccess, setHasAccess] = useState(null)
-
 
     const handleTransaction = (e) => {
         if (e.target.name === 'deposit' && depositRef.current.value) {
@@ -55,6 +56,13 @@ const Dashboard = () => {
             }
 
             setHasAccess(true)
+            setTimeout(() => {
+                localStorage.removeItem('token')
+                localStorage.removeItem('user')
+                alert('session expired')
+                navigate('/')
+
+            }, 600000);
 
         }
 
@@ -78,8 +86,6 @@ const Dashboard = () => {
 
             <main className="app container flex-grow-1 py-4">
 
-
-
                 {/* BALANCE */}
                 <div className="balance card shadow-sm mb-4 rounded-3 p-4 bg-primary text-white">
                     <div className="d-flex justify-content-between align-items-end">
@@ -88,6 +94,7 @@ const Dashboard = () => {
                             <p className="balance__date fs-7 opacity-75">
                                 As of <span className="date">05/03/2037</span>
                             </p>
+                            <p>Account number: {accountNumber}</p>
                         </div>
                         <p className="balance__value display-4 fw-bold mb-0">{balance} USD</p>
                     </div>
@@ -176,15 +183,15 @@ const Dashboard = () => {
                         <div className="summary card shadow-sm rounded-3 p-4 h-100">
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <p className="summary__label mb-0 fw-semibold">In</p>
-                                <p className="summary__value summary__value--in text-success fw-bold fs-5 mb-0">{deposits.toFixed(2)} USD</p>
+                                <p className="summary__value summary__value--in text-success fw-bold fs-5 mb-0">{deposits} USD</p>
                             </div>
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <p className="summary__label mb-0 fw-semibold">Out</p>
-                                <p className="summary__value summary__value--out text-danger fw-bold fs-5 mb-0">{withdrawals.toFixed(2)} USD</p>
+                                <p className="summary__value summary__value--out text-danger fw-bold fs-5 mb-0">{withdrawals} USD</p>
                             </div>
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <p className="summary__label mb-0 fw-semibold">Interest</p>
-                                <p className="summary__value summary__value--interest text-info fw-bold fs-5 mb-0">{(deposits * 0.03).toFixed(2)} USD</p>
+                                <p className="summary__value summary__value--interest text-info fw-bold fs-5 mb-0">{interests.toFixed(2)} USD</p>
                             </div>
                             <div className="mt-auto pt-3 border-top">
                                 <button className="btn btn-outline-secondary btn-sm rounded-pill fw-semibold">&downarrow;</button>

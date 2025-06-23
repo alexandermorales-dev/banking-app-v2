@@ -100,6 +100,7 @@ def get_dashboard_data():
         return jsonify({"message": "User not found"}), 404 
 
     account= Account.query.filter_by(user_id=user.id).first()
+    acct_number = account.account_number
 
     all_transactions = [mov.serialize() for mov in account.transactions]
 
@@ -128,7 +129,8 @@ def get_dashboard_data():
         "user_email": user.email,
         "balance": account.balance, 
         'deposits': total_deposits, 
-        'withdrawals': total_withdrawals
+        'withdrawals': total_withdrawals, 
+        'account_number': acct_number
     }), 200
 
 @api.route('/transactions', methods=['POST']) 

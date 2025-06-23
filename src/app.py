@@ -37,7 +37,7 @@ else:
 # Set a secret key for JWTs. This should be a strong, random string in production.
 app.config["JWT_SECRET_KEY"] = "super-secret-jwt-key"
 # Optional: Configure token expiration (e.g., 30 minutes)
-app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=3)
+app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=10)
 jwt = JWTManager(app)
 
 # --- NEW JWT Error Handlers ---

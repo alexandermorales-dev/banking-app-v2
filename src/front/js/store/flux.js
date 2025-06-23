@@ -112,7 +112,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (!res.ok) return null
 
 				const data = await res.json()
-				setStore({ ...getStore(), balance: data.balance, totalDeposits: data.deposits, totalWithdrawals: data.withdrawals })
+				setStore({ ...getStore(), balance: data.balance, totalDeposits: data.deposits, totalWithdrawals: data.withdrawals, accountNumber: data.account_number })
 				console.log(data)
 				return data
 			},
