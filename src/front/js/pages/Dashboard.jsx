@@ -29,7 +29,7 @@ const Dashboard = () => {
             depositRef.current.value = ''
 
         } else if (e.target.name === 'withdraw' && withdrawRef.current.value) {
-            if (parseInt(withdrawRef.current.value) > balance) {
+            if (withdrawRef.current.value > balance) {
                 alert('Amount should be less than current balance')
                 withdrawRef.current.value = ''
                 return
