@@ -65,11 +65,14 @@ const Dashboard = () => {
         navigate('/')
     }
 
-    const handleLoan = () => {
-
+    const handleLoan = (e) => {
+        e.preventDefault()
         if (Number(loanRef.current.value) > 0 && Number(loanRef.current.value) < (balance * 0.10)) {
             console.log('loan is on its way')
-            // actions.handleLoan()
+            setTimeout(() => {
+                actions.handleTransaction({ type: 'deposit', amount: loanRef.current.value, userId: currentUserObj.id })
+                loanRef.current.value = ''
+            }, 3000);
         }
     }
     useEffect(() => {
@@ -252,7 +255,7 @@ const Dashboard = () => {
                     <div className="col-lg-6">
                         {/* OPERATION: LOAN */}
                         <div className="operation operation--loan card shadow-sm rounded-3 p-4 h-100">
-                            <h2 className="card-title h5 mb-3">Request loan</h2>
+                            <h2 className="card-title h5 mb-3">Request loan (amount should be less than 10% of current Balance)</h2>
                             <form className="form form--loan row g-2 align-items-end">
                                 <div className="col-10">
                                     <input type="number" ref={loanRef} className="form-control rounded-pill px-3 py-2 form__input--loan-amount" placeholder="Amount" />

@@ -184,4 +184,4 @@ def add_transaction():
     
     
 
-    return jsonify({'message': 'withdrawal successfully made', 'new_balance': account.balance, 'transactions': all_transactions, 'total_deposits': total_deposits, 'total_withdrawals': total_withdrawals}), 201
+    return jsonify({'message': 'transaction successfully made', 'new_balance': account.balance, 'transactions': all_transactions, 'total_deposits': total_deposits, 'total_withdrawals': total_withdrawals}), 201
