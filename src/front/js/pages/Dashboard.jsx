@@ -77,7 +77,7 @@ const Dashboard = () => {
             <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3 mb-4">
                 <div className="container d-flex justify-content-between align-items-center">
                     <p className="welcome mb-0 text-muted d-none d-md-block">Welcome {currentUserObj.name}</p> {/* Hide on small screens */}
-                    <img src={bank} alt="Logo" className="img-fluid" style={{ maxHeight: '45px' }} />
+                    <a href="/"> <img src={bank} alt="Logo" className="img-fluid" style={{ maxHeight: '45px' }} /></a>
 
 
                     <button onClick={handleLogout} className="btn btn-danger border rounded-pill px-4 py-2 fw-semibold shadow-sm"> &larr;</button>
