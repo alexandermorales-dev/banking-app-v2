@@ -98,7 +98,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			handleLogout: () => {
 				localStorage.removeItem('token')
 				localStorage.removeItem('user')
-				setStore({ ...getStore(), currentUser: '', hasAccess: false })
+				setStore({})
 			},
 			handleDashboard: async (token) => {
 				const res = await fetch(process.env.BACKEND_URL + "api/dashboard", {

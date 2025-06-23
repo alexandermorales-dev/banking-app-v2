@@ -57,12 +57,11 @@ const Dashboard = () => {
 
             setHasAccess(true)
             setTimeout(() => {
-                localStorage.removeItem('token')
-                localStorage.removeItem('user')
                 alert('session expired')
                 navigate('/')
+                actions.handleLogout()
 
-            }, 600000);
+            }, 300000);
 
         }
 
