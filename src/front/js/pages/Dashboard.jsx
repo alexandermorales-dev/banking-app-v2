@@ -4,19 +4,27 @@ import { Context } from "../store/appContext";
 import bank from '../../img/bank-logo.png'
 
 const Dashboard = () => {
+    const { actions, store } = useContext(Context)
+    const [hasAccess, setHasAccess] = useState(null)
+
     const navigate = useNavigate()
+
     const depositRef = useRef(null)
     const withdrawRef = useRef(null)
-    const { actions, store } = useContext(Context)
+    const loanRef = useRef(null)
+
     const token = localStorage.getItem('token')
     const currentUserJson = localStorage.getItem('user')
     const currentUserObj = JSON.parse(currentUserJson)
-    const balance = parseInt(store.balance)
+
+    const balance = Number(store.balance)
+    const allTransactions = store.allTransactions || []
+    const accountNumber = store.accountNumber
+
     const balanceFormatted = new Intl.NumberFormat('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     }).format(store.balance)
-    const allTransactions = store.allTransactions || []
     const deposits = new Intl.NumberFormat('en-US', {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
@@ -25,9 +33,11 @@ const Dashboard = () => {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
     }).format(store.totalWithdrawals)
-    const interests = parseFloat(deposits) * 0.03
-    const accountNumber = store.accountNumber
-    const [hasAccess, setHasAccess] = useState(null)
+
+    const interests = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(Number(store.totalDeposits * 0.03))
 
     const handleTransaction = (e) => {
         if (e.target.name === 'deposit' && depositRef.current.value) {
@@ -40,7 +50,7 @@ const Dashboard = () => {
             depositRef.current.value = ''
 
         } else if (e.target.name === 'withdraw' && withdrawRef.current.value) {
-            if (parseInt(withdrawRef.current.value) > balance) {
+            if (Number(withdrawRef.current.value) > balance) {
                 alert('Amount should be less than current balance')
                 withdrawRef.current.value = ''
                 return
@@ -55,6 +65,13 @@ const Dashboard = () => {
         navigate('/')
     }
 
+    const handleLoan = () => {
+
+        if (Number(loanRef.current.value) > 0 && Number(loanRef.current.value) < (balance * 0.10)) {
+            console.log('loan is on its way')
+            // actions.handleLoan()
+        }
+    }
     useEffect(() => {
 
         const handleDashboard = async () => {
@@ -204,11 +221,9 @@ const Dashboard = () => {
                             </div>
                             <div className="d-flex justify-content-between align-items-center mb-3">
                                 <p className="summary__label mb-0 fw-semibold">Interest</p>
-                                <p className="summary__value summary__value--interest text-info fw-bold fs-5 mb-0">{interests.toFixed(2)} USD</p>
+                                <p className="summary__value summary__value--interest text-info fw-bold fs-5 mb-0">{interests} USD</p>
                             </div>
-                            <div className="mt-auto pt-3 border-top">
-                                <button className="btn btn-outline-secondary btn-sm rounded-pill fw-semibold">&downarrow;</button>
-                            </div>
+
                         </div>
                     </div>
 
@@ -240,11 +255,11 @@ const Dashboard = () => {
                             <h2 className="card-title h5 mb-3">Request loan</h2>
                             <form className="form form--loan row g-2 align-items-end">
                                 <div className="col-10">
-                                    <input type="number" className="form-control rounded-pill px-3 py-2 form__input--loan-amount" placeholder="Amount" />
+                                    <input type="number" ref={loanRef} className="form-control rounded-pill px-3 py-2 form__input--loan-amount" placeholder="Amount" />
                                     <label className="form__label form__label--loan d-block text-muted mt-1 fs-7">Amount</label>
                                 </div>
                                 <div className="col-2">
-                                    <button className="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }}>&rarr;</button>
+                                    <button onClick={handleLoan} className="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }}>&rarr;</button>
                                 </div>
                             </form>
                         </div>
