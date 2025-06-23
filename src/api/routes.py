@@ -130,7 +130,8 @@ def get_dashboard_data():
         "balance": account.balance, 
         'deposits': total_deposits, 
         'withdrawals': total_withdrawals, 
-        'account_number': acct_number
+        'account_number': acct_number, 
+        'all_transactions': all_transactions
     }), 200
 
 @api.route('/transactions', methods=['POST']) 
@@ -154,8 +155,6 @@ def add_transaction():
         new_transaction = Transaction(account_id=account.id, type=transaction_type, amount=transaction_amount)
         db.session.add(new_transaction)
         db.session.commit()
-
-        # return jsonify({'message': 'deposit successfully made', 'new_balance': account.balance}), 201
 
     if transaction_type == 'withdraw' and account.balance > transaction_amount:
 

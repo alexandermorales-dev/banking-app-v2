@@ -11,9 +11,20 @@ const Dashboard = () => {
     const token = localStorage.getItem('token')
     const currentUserJson = localStorage.getItem('user')
     const currentUserObj = JSON.parse(currentUserJson)
-    const balance = new Intl.NumberFormat('en-US').format(store.balance)
-    const deposits = new Intl.NumberFormat('en-US').format(store.totalDeposits)
-    const withdrawals = new Intl.NumberFormat('en-US').format(store.totalWithdrawals)
+    const balance = parseInt(store.balance)
+    const balanceFormatted = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(store.balance)
+    const allTransactions = store.allTransactions || []
+    const deposits = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(store.totalDeposits);
+    const withdrawals = new Intl.NumberFormat('en-US', {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(store.totalWithdrawals)
     const interests = parseFloat(deposits) * 0.03
     const accountNumber = store.accountNumber
     const [hasAccess, setHasAccess] = useState(null)
@@ -29,7 +40,7 @@ const Dashboard = () => {
             depositRef.current.value = ''
 
         } else if (e.target.name === 'withdraw' && withdrawRef.current.value) {
-            if (withdrawRef.current.value > balance) {
+            if (parseInt(withdrawRef.current.value) > balance) {
                 alert('Amount should be less than current balance')
                 withdrawRef.current.value = ''
                 return
@@ -48,7 +59,7 @@ const Dashboard = () => {
 
         const handleDashboard = async () => {
             const success = await actions.handleDashboard(token)
-            if (!success) {
+            if (!success || !token) {
                 setHasAccess(false)
                 alert('Please log in')
                 navigate('/')
@@ -95,28 +106,31 @@ const Dashboard = () => {
                             </p>
                             <p>Account number: {accountNumber}</p>
                         </div>
-                        <p className="balance__value display-4 fw-bold mb-0">{balance} USD</p>
+                        <p className="balance__value display-4 fw-bold mb-0">{balanceFormatted} USD</p>
                     </div>
                 </div>
 
                 {/* MOVEMENTS */}
                 <div className="movements card shadow-sm mb-4 rounded-3">
+                    {allTransactions.slice(-5).sort((a, b) => {
+                        const dateA = new Date(a.transaction_date);
+                        const dateB = new Date(b.transaction_date);
+                        return dateB - dateA;
+                    }).map((transaction) => {
+                        {/* Movement Row 1 */ }
+                        return <div key={transaction.id} className="movements__row d-flex justify-content-between align-items-center p-3 border-bottom">
+                            <div className={`movements__type movements__type--${transaction.type} badge bg-${transaction.type == 'deposit' ? 'success' : 'danger'} text-uppercase py-2 px-3 rounded-pill fs-7`}>{transaction.type}</div>
+                            <div className="movements__date text-muted fs-7">{new Date(transaction.transaction_date).toLocaleString()}
 
-                    <div className="card-body p-0">
-                        {/* Movement Row 1 */}
-                        <div className="movements__row d-flex justify-content-between align-items-center p-3 border-bottom">
-                            <div className="movements__type movements__type--deposit badge bg-success text-uppercase py-2 px-3 rounded-pill fs-7">Deposit</div>
-                            <div className="movements__date text-muted fs-7">3 days ago</div>
-                            <div className="movements__value fw-bold text-success fs-5">4 000€</div>
+                            </div>
+                            <div className="movements__value fw-bold text-success fs-5">{new Intl.NumberFormat('en-US', {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2
+                            }).format(Number(transaction.amount).toFixed(2))} USD</div>
                         </div>
-                        {/* Movement Row 2 */}
-                        <div className="movements__row d-flex justify-content-between align-items-center p-3">
-                            <div className="movements__type movements__type--withdrawal badge bg-danger text-uppercase py-2 px-3 rounded-pill fs-7">Withdrawal</div>
-                            <div className="movements__date text-muted fs-7">24/01/2037</div>
-                            <div className="movements__value fw-bold text-danger fs-5">-378€</div>
-                        </div>
-                    </div>
+                    })}
                 </div>
+
 
                 <div className="row g-4 mb-4">
                     {/* ACTIONS */}

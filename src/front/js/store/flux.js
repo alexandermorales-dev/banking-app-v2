@@ -14,6 +14,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					initial: "white"
 				}
 			],
+			allTransactions: []
 		},
 		actions: {
 			// Use getActions to call a function within a fuction
@@ -112,7 +113,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				if (!res.ok) return null
 
 				const data = await res.json()
-				setStore({ ...getStore(), balance: data.balance, totalDeposits: data.deposits, totalWithdrawals: data.withdrawals, accountNumber: data.account_number })
+				setStore({ ...getStore(), balance: data.balance, totalDeposits: data.deposits, totalWithdrawals: data.withdrawals, accountNumber: data.account_number, allTransactions: data.all_transactions })
 				console.log(data)
 				return data
 			},
@@ -142,7 +143,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				const data = await res.json();
 				console.log(data)
 				if (data.new_balance) {
-					setStore({ ...getStore(), balance: data.new_balance, totalDeposits: data.total_deposits, totalWithdrawals: data.total_withdrawals })
+					setStore({ ...getStore(), balance: parseInt(data.new_balance), totalDeposits: parseInt(data.total_deposits), totalWithdrawals: parseInt(data.total_withdrawals), allTransactions: data.transactions })
 
 				}
 				return data;
