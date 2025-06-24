@@ -5,7 +5,8 @@ import bank from '../../img/bank-logo.png'
 
 const Dashboard = () => {
     const { actions, store } = useContext(Context)
-    const [hasAccess, setHasAccess] = useState(null)
+    const [hasAccess, setHasAccess] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     const navigate = useNavigate()
 
@@ -76,6 +77,7 @@ const Dashboard = () => {
         }
     }
     useEffect(() => {
+        setIsLoading(true)
 
         const handleDashboard = async () => {
             const success = await actions.handleDashboard(token)
@@ -83,10 +85,13 @@ const Dashboard = () => {
                 setHasAccess(false)
                 alert('Please log in')
                 navigate('/')
+                setIsLoading(false)
                 return
             }
 
             setHasAccess(true)
+            setIsLoading(false)
+
             setTimeout(() => {
                 alert('session expired')
                 navigate('/')
@@ -101,7 +106,22 @@ const Dashboard = () => {
 
     }, [])
 
-    return (hasAccess ?
+    if (isLoading) {
+        return <div className="d-flex justify-content-center align-items-center vh-100">
+            <div className="spinner-border" role="status">
+                <span className="visually-hidden">Loading...</span>
+            </div>
+        </div>
+    }
+
+    if (!hasAccess) {
+        return <div>
+            <h1>Unauthorized</h1>
+        </div>
+    }
+
+    return (
+
         <div className="bg-light min-vh-100 d-flex flex-column text-dark">
             {/* TOP NAVIGATION */}
             <nav className="navbar navbar-expand-lg navbar-light bg-white shadow-sm py-3 mb-4">
@@ -255,7 +275,7 @@ const Dashboard = () => {
                     <div className="col-lg-6">
                         {/* OPERATION: LOAN */}
                         <div className="operation operation--loan card shadow-sm rounded-3 p-4 h-100">
-                            <h2 className="card-title h5 mb-3">Request loan (amount should be less than 10% of current Balance)</h2>
+                            <h2 className="card-title h5 mb-3">Request loan <span className="fs-6"> (amount should be less than 10% of current Balance)</span> </h2>
                             <form className="form form--loan row g-2 align-items-end">
                                 <div className="col-10">
                                     <input type="number" ref={loanRef} className="form-control rounded-pill px-3 py-2 form__input--loan-amount" placeholder="Amount" />
@@ -299,9 +319,6 @@ const Dashboard = () => {
                     You will be logged out in <span className="timer fw-bold text-dark">05:00</span>
                 </p>
             </main>
-        </div> : <div>
-            <h1> Unauthorized</h1>
-
         </div>
     );
 }
