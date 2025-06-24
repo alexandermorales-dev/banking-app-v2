@@ -314,7 +314,7 @@ const Dashboard = () => {
 
                     <div className="col-lg-6">
                         {/* OPERATION: CLOSE */}
-                        <div className="d-flex justify-content-center operation operation--close card shadow-sm rounded-3 p-4 h-100">
+                        <div className="d-flex align-items-center operation operation--close card shadow-sm rounded-3 p-4 h-100">
                             <h2 className="card-title h5 mb-3">Close account</h2>
                             <button
                                 type="button"
