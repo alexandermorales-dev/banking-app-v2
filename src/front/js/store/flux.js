@@ -80,7 +80,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 					if (!res.ok) {
 						const errorMsg = await res.json()
-						return errorMsg.message
+						return (errorMsg.message)
 
 
 					}
@@ -147,7 +147,45 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				}
 				return data;
-			}
+			},
+			handleDelete: async (id) => {
+				const token = localStorage.getItem('token'); // 
+				const url = process.env.BACKEND_URL + `api/user/${id}`;
+
+				try {
+					const res = await fetch(url, {
+						method: 'DELETE',
+						headers: {
+							'Authorization': `Bearer ${token}`,
+						},
+
+					});
+
+					if (!res.ok) {
+						let errorMessage = "An unknown error occurred.";
+						try {
+							const errorData = await res.json();
+							errorMessage = errorData.message || errorMessage;
+						} catch (parseError) {
+							errorMessage = `Error ${res.status}: ${res.statusText || "Unable to process request"}`;
+							console.warn("Could not parse error response JSON:", parseError, res);
+						}
+						console.error(`Failed to delete user ${id}: ${errorMessage}`);
+						throw new Error(errorMessage);
+					}
+
+					if (res.status === 204) {
+						return "User deleted successfully!";
+					} else {
+						const data = await res.json();
+						return data.message || "User deleted successfully!";
+					}
+
+				} catch (error) {
+					console.error("Network or unexpected error during deletion:", error);
+					throw error;
+				}
+			},
 		},
 
 	};

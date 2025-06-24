@@ -17,7 +17,7 @@ class User(db.Model):
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
 
     # Relationship to accounts: One User can have many Accounts
-    accounts = db.relationship('Account', backref='user', lazy=True)
+    accounts = db.relationship('Account', backref='user', lazy=True, cascade="all, delete-orphan")
 
     def __repr__(self):
         return f'<User {self.email}>'
@@ -54,7 +54,8 @@ class Account(db.Model):
         'Transaction',
         foreign_keys='Transaction.account_id', # Specify the foreign key for this relationship
         backref='account',
-        lazy=True
+        lazy=True,
+        cascade='all, delete-orphan'
     )
 
     def __repr__(self):

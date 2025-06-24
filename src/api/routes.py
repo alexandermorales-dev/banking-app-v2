@@ -80,7 +80,7 @@ def handle_login():
     user_found = User.query.filter_by(email=email).first()
 
     if not user_found:
-        return jsonify({'message': 'email not found'})
+        return jsonify({'message': 'email not found'}),404
 
     if check_password_hash(user_found.hash_password, password):
         access_token = create_access_token(identity=str(user_found.id))
@@ -185,3 +185,22 @@ def add_transaction():
     
 
     return jsonify({'message': 'transaction successfully made', 'new_balance': account.balance, 'transactions': all_transactions, 'total_deposits': total_deposits, 'total_withdrawals': total_withdrawals}), 201
+
+@api.route('/user/<int:id>', methods=['DELETE']) 
+@jwt_required() 
+def delete_user(id):
+    current_user_id = int(get_jwt_identity())
+    user = User.query.get(id)
+    print(f"URL ID: {id}, Type: {type(id)}")
+    print(f"JWT User ID: {current_user_id}, Type: {type(current_user_id)}")
+
+
+    if current_user_id != id:
+        return jsonify({'message': 'you are not allowed to delete user'}), 403
+
+    if not user:
+        return jsonify({'message': 'user not found'}), 404
+    
+    db.session.delete(user)
+    db.session.commit()
+    return jsonify({'message':'user deleted'}), 200

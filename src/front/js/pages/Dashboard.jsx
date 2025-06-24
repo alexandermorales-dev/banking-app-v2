@@ -7,6 +7,7 @@ const Dashboard = () => {
     const { actions, store } = useContext(Context)
     const [hasAccess, setHasAccess] = useState(false)
     const [isLoading, setIsLoading] = useState(true)
+    const [currentDate, setCurrentDate] = useState('')
 
     const navigate = useNavigate()
 
@@ -21,6 +22,9 @@ const Dashboard = () => {
     const balance = Number(store.balance)
     const allTransactions = store.allTransactions || []
     const accountNumber = store.accountNumber
+
+
+
 
     const balanceFormatted = new Intl.NumberFormat('en-US', {
         minimumFractionDigits: 2,
@@ -52,6 +56,7 @@ const Dashboard = () => {
 
         } else if (e.target.name === 'withdraw' && withdrawRef.current.value) {
             if (Number(withdrawRef.current.value) > balance) {
+
                 alert('Amount should be less than current balance')
                 withdrawRef.current.value = ''
                 return
@@ -76,6 +81,22 @@ const Dashboard = () => {
             }, 3000);
         }
     }
+
+    const handleCloseAccount = async (id) => {
+        try {
+            const message = await actions.handleDelete(id);
+            alert(message);
+
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            navigate('/');
+        } catch (error) {
+            console.error("Error closing account:", error);
+            alert(error.message);
+        }
+    };
+
+
     useEffect(() => {
         setIsLoading(true)
 
@@ -88,9 +109,12 @@ const Dashboard = () => {
                 setIsLoading(false)
                 return
             }
-
             setHasAccess(true)
             setIsLoading(false)
+            const today = new Date();
+            const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+            const formattedDate = new Intl.DateTimeFormat('en-US', options).format(today);
+            setCurrentDate(formattedDate);
 
             setTimeout(() => {
                 alert('session expired')
@@ -142,7 +166,7 @@ const Dashboard = () => {
                         <div>
                             <p className="balance__label fs-6 mb-1 opacity-75">Current balance</p>
                             <p className="balance__date fs-7 opacity-75">
-                                As of <span className="date">05/03/2037</span>
+                                As of <span className="date">{currentDate}</span>
                             </p>
                             <p>Account number: {accountNumber}</p>
                         </div>
@@ -307,7 +331,7 @@ const Dashboard = () => {
                                     <label className="form__label d-block text-muted mt-1 fs-7">Confirm PIN</label>
                                 </div>
                                 <div className="col-2">
-                                    <button className="btn btn-danger rounded-circle d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }}>&rarr;</button>
+                                    <button type="button" onClick={() => handleCloseAccount(currentUserObj.id)} className="btn btn-danger rounded-circle d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }}>&rarr;</button>
                                 </div>
                             </form>
                         </div>
