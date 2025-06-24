@@ -314,26 +314,15 @@ const Dashboard = () => {
 
                     <div className="col-lg-6">
                         {/* OPERATION: CLOSE */}
-                        <div className="operation operation--close card shadow-sm rounded-3 p-4 h-100">
+                        <div className="d-flex justify-content-center operation operation--close card shadow-sm rounded-3 p-4 h-100">
                             <h2 className="card-title h5 mb-3">Close account</h2>
-                            <form className="form form--close row g-2 align-items-end">
-                                <div className="col-4">
-                                    <input type="text" className="form-control rounded-pill px-3 py-2 form__input--user" placeholder="Confirm User" />
-                                    <label className="form__label d-block text-muted mt-1 fs-7">Confirm user</label>
-                                </div>
-                                <div className="col-4">
-                                    <input
-                                        type="password"
-                                        maxLength="6"
-                                        className="form-control rounded-pill px-3 py-2 form__input--pin"
-                                        placeholder="Confirm PIN"
-                                    />
-                                    <label className="form__label d-block text-muted mt-1 fs-7">Confirm PIN</label>
-                                </div>
-                                <div className="col-2">
-                                    <button type="button" onClick={() => handleCloseAccount(currentUserObj.id)} className="btn btn-danger rounded-circle d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }}>&rarr;</button>
-                                </div>
-                            </form>
+                            <button
+                                type="button"
+                                onClick={() => handleCloseAccount(currentUserObj.id)}
+                                className="btn btn-danger w-100" 
+                            >
+                                Close Account 
+                            </button>
                         </div>
                     </div>
                 </div>
