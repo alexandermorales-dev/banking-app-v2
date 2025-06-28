@@ -199,10 +199,10 @@ const Dashboard = () => {
                 <div className="row g-4 mb-4">
                     {/* ACTIONS */}
 
-                    <div className="card-group">
+                    {/* <div className="card-group">
                         <div className="card">
-                            <div className="row row-cols-1 row-cols-md-3 g-4">
-                                <div className="col">
+                            <div className="row row-cols-1 row-cols-md-3 g-4"> */}
+                                {/* <div className="col">
                                     <div className="card h-100 d-flex flex-column">
                                         <div className="card-body d-flex flex-column">
                                             <h5 className="card-title">Open account</h5>
@@ -229,32 +229,32 @@ const Dashboard = () => {
                                             <button type="button" className="btn btn-primary mx-2">Open Account</button>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="col">
+                                </div> */}
+                                <div className="col-6">
                                     <div className="card h-100 d-flex flex-column">
                                         <div className="card-body d-flex flex-column">
                                             <h5 className="card-title">Deposit</h5>
                                             <div className="flex-grow-1 d-flex align-items-center">
                                                 <input className="form-control rounded-pill px-3 py-2" type="number" ref={depositRef} />
                                             </div>
-                                            <button onClick={handleTransaction} type="button" name="deposit" className="btn btn-success mx-2">Deposit</button>
+                                            <button onClick={handleTransaction} type="button" name="deposit" className="btn btn-success m-2">Deposit</button>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="col">
+                                <div className="col-6">
                                     <div className="card h-100 d-flex flex-column">
                                         <div className="card-body d-flex flex-column">
                                             <h5 className="card-title">Withdraw</h5>
                                             <div className="flex-grow-1 d-flex align-items-center">
                                                 <input className="form-control rounded-pill px-3 py-2" type="number" ref={withdrawRef} />
                                             </div>
-                                            <button onClick={handleTransaction} type="button" name="withdraw" className="btn btn-danger mx-2">Withdraw</button>
+                                            <button onClick={handleTransaction} type="button" name="withdraw" className="btn btn-danger m-2">Withdraw</button>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            {/* </div>
                         </div>
-                    </div>
+                    </div> */}
                     {/* SUMMARY */}
                     <div className="col-lg-6">
                         <div className="summary card shadow-sm rounded-3 p-4 h-100">
