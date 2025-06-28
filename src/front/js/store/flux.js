@@ -142,10 +142,10 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				const data = await res.json();
 				console.log(data)
-				if (data.new_balance) {
-					setStore({ ...getStore(), balance: parseInt(data.new_balance), totalDeposits: parseInt(data.total_deposits), totalWithdrawals: parseInt(data.total_withdrawals), allTransactions: data.transactions })
+				// if (data.new_balance) {
+				setStore({ ...getStore(), balance: parseInt(data.new_balance), totalDeposits: parseInt(data.total_deposits), totalWithdrawals: parseInt(data.total_withdrawals), allTransactions: data.transactions })
 
-				}
+				// }
 				return data;
 			},
 			handleDelete: async (id) => {

@@ -44,25 +44,29 @@ const Dashboard = () => {
         maximumFractionDigits: 2
     }).format(Number(store.totalDeposits * 0.03))
 
-    const handleTransaction = (e) => {
+    const handleTransaction = async (e) => {
         if (e.target.name === 'deposit' && depositRef.current.value) {
             if (depositRef.current.value <= 0) {
                 alert('Amount should be a positive number')
                 depositRef.current.value = ''
                 return
             }
-            actions.handleTransaction({ type: 'deposit', amount: depositRef.current.value, userId: currentUserObj.id })
+            const res = await actions.handleTransaction({ type: 'deposit', amount: depositRef.current.value, userId: currentUserObj.id })
             depositRef.current.value = ''
+            const data = await res
+            return data
 
         } else if (e.target.name === 'withdraw' && withdrawRef.current.value) {
-            if (Number(withdrawRef.current.value) > balance) {
+            if (Number(withdrawRef.current.value) >= balance) {
 
                 alert('Amount should be less than current balance')
                 withdrawRef.current.value = ''
                 return
             }
-            actions.handleTransaction({ type: 'withdraw', amount: withdrawRef.current.value, userId: currentUserObj.id })
+            const res = await actions.handleTransaction({ type: 'withdraw', amount: withdrawRef.current.value, userId: currentUserObj.id })
             withdrawRef.current.value = ''
+            const data = await res
+            return data
 
         }
     }
@@ -202,7 +206,7 @@ const Dashboard = () => {
                     {/* <div className="card-group">
                         <div className="card">
                             <div className="row row-cols-1 row-cols-md-3 g-4"> */}
-                                {/* <div className="col">
+                    {/* <div className="col">
                                     <div className="card h-100 d-flex flex-column">
                                         <div className="card-body d-flex flex-column">
                                             <h5 className="card-title">Open account</h5>
@@ -230,29 +234,29 @@ const Dashboard = () => {
                                         </div>
                                     </div>
                                 </div> */}
-                                <div className="col-6">
-                                    <div className="card h-100 d-flex flex-column">
-                                        <div className="card-body d-flex flex-column">
-                                            <h5 className="card-title">Deposit</h5>
-                                            <div className="flex-grow-1 d-flex align-items-center">
-                                                <input className="form-control rounded-pill px-3 py-2" type="number" ref={depositRef} />
-                                            </div>
-                                            <button onClick={handleTransaction} type="button" name="deposit" className="btn btn-success m-2">Deposit</button>
-                                        </div>
-                                    </div>
+                    <div className="col-6">
+                        <div className="card h-100 d-flex flex-column">
+                            <div className="card-body d-flex flex-column">
+                                <h5 className="card-title">Deposit</h5>
+                                <div className="flex-grow-1 d-flex align-items-center">
+                                    <input className="form-control rounded-pill px-3 py-2" type="number" ref={depositRef} />
                                 </div>
-                                <div className="col-6">
-                                    <div className="card h-100 d-flex flex-column">
-                                        <div className="card-body d-flex flex-column">
-                                            <h5 className="card-title">Withdraw</h5>
-                                            <div className="flex-grow-1 d-flex align-items-center">
-                                                <input className="form-control rounded-pill px-3 py-2" type="number" ref={withdrawRef} />
-                                            </div>
-                                            <button onClick={handleTransaction} type="button" name="withdraw" className="btn btn-danger m-2">Withdraw</button>
-                                        </div>
-                                    </div>
+                                <button onClick={handleTransaction} type="button" name="deposit" className="btn btn-success m-2">Deposit</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="col-6">
+                        <div className="card h-100 d-flex flex-column">
+                            <div className="card-body d-flex flex-column">
+                                <h5 className="card-title">Withdraw</h5>
+                                <div className="flex-grow-1 d-flex align-items-center">
+                                    <input className="form-control rounded-pill px-3 py-2" type="number" ref={withdrawRef} />
                                 </div>
-                            {/* </div>
+                                <button onClick={handleTransaction} type="button" name="withdraw" className="btn btn-danger m-2">Withdraw</button>
+                            </div>
+                        </div>
+                    </div>
+                    {/* </div>
                         </div>
                     </div> */}
                     {/* SUMMARY */}
@@ -319,9 +323,9 @@ const Dashboard = () => {
                             <button
                                 type="button"
                                 onClick={() => handleCloseAccount(currentUserObj.id)}
-                                className="btn btn-danger w-100" 
+                                className="btn btn-danger w-100"
                             >
-                                Close Account 
+                                Close Account
                             </button>
                         </div>
                     </div>
