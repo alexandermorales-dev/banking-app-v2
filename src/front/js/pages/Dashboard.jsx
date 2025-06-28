@@ -11,8 +11,10 @@ const Dashboard = () => {
 
     const navigate = useNavigate()
 
-    const depositRef = useRef(null)
-    const withdrawRef = useRef(null)
+    const depositInputRef = useRef(null)
+    const withdrawInputRef = useRef(null)
+
+
     const loanRef = useRef(null)
 
     const token = localStorage.getItem('token')
@@ -45,26 +47,27 @@ const Dashboard = () => {
     }).format(Number(store.totalDeposits * 0.03))
 
     const handleTransaction = async (e) => {
-        if (e.target.name === 'deposit' && depositRef.current.value) {
-            if (depositRef.current.value <= 0) {
+        e.preventDefault()
+        if (e.target.name === 'deposit' && depositInputRef.current.value) {
+            if (depositInputRef.current.value <= 0) {
                 alert('Amount should be a positive number')
-                depositRef.current.value = ''
+                depositInputRef.current.value = ''
                 return
             }
-            const res = await actions.handleTransaction({ type: 'deposit', amount: depositRef.current.value, userId: currentUserObj.id })
-            depositRef.current.value = ''
+            const res = await actions.handleTransaction({ type: 'deposit', amount: depositInputRef.current.value, userId: currentUserObj.id })
+            depositInputRef.current.value = ''
             const data = await res
             return data
 
-        } else if (e.target.name === 'withdraw' && withdrawRef.current.value) {
-            if (Number(withdrawRef.current.value) >= balance) {
+        } else if (e.target.name === 'withdraw' && withdrawInputRef.current.value) {
+            if (Number(withdrawInputRef.current.value) >= balance) {
 
                 alert('Amount should be less than current balance')
-                withdrawRef.current.value = ''
+                withdrawInputRef.current.value = ''
                 return
             }
-            const res = await actions.handleTransaction({ type: 'withdraw', amount: withdrawRef.current.value, userId: currentUserObj.id })
-            withdrawRef.current.value = ''
+            const res = await actions.handleTransaction({ type: 'withdraw', amount: withdrawInputRef.current.value, userId: currentUserObj.id })
+            withdrawInputRef.current.value = ''
             const data = await res
             return data
 
@@ -122,8 +125,8 @@ const Dashboard = () => {
 
             setTimeout(() => {
                 alert('session expired')
-                navigate('/')
                 actions.handleLogout()
+                navigate('/')
 
             }, 300000);
 
@@ -239,9 +242,12 @@ const Dashboard = () => {
                             <div className="card-body d-flex flex-column">
                                 <h5 className="card-title">Deposit</h5>
                                 <div className="flex-grow-1 d-flex align-items-center">
-                                    <input className="form-control rounded-pill px-3 py-2" type="number" ref={depositRef} />
+                                    <form onSubmit={handleTransaction} name="deposit">
+                                        <label htmlFor="depositAmount"></label>
+                                        <input id="depositAmount" className="form-control rounded-pill px-3 py-2" type="number" ref={depositInputRef} />
+                                        <button type="submit" name="deposit" className="btn btn-success m-2" >Deposit</button>
+                                    </form>
                                 </div>
-                                <button onClick={handleTransaction} type="button" name="deposit" className="btn btn-success m-2">Deposit</button>
                             </div>
                         </div>
                     </div>
@@ -250,9 +256,12 @@ const Dashboard = () => {
                             <div className="card-body d-flex flex-column">
                                 <h5 className="card-title">Withdraw</h5>
                                 <div className="flex-grow-1 d-flex align-items-center">
-                                    <input className="form-control rounded-pill px-3 py-2" type="number" ref={withdrawRef} />
+                                    <form onSubmit={handleTransaction} name="withdraw">
+                                        <label htmlFor="withdrawAmount"></label>
+                                        <input id="withdrawAmount" className="form-control rounded-pill px-3 py-2" type="number" ref={withdrawInputRef} />
+                                        <button type="submit" name="withdraw" className="btn btn-danger m-2" >Withdraw</button>
+                                    </form>
                                 </div>
-                                <button onClick={handleTransaction} type="button" name="withdraw" className="btn btn-danger m-2">Withdraw</button>
                             </div>
                         </div>
                     </div>
