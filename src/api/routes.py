@@ -139,20 +139,20 @@ def get_dashboard_data():
 def add_transaction():
     data = request.get_json()
     transaction_type = data.get('type')
-    transaction_amount = int(data.get('amount'))
+    transaction_amount = data.get('amount')
     recipient_email = data.get('recipientEmail')
 
     current_user_id = get_jwt_identity()
     user = User.query.get(current_user_id)
 
     account = Account.query.filter_by(user_id = user.id).first()
-    recipient = User.query.filter_by(user_email = recipient_email ).first()
+
 
     if not account:
         return jsonify({"message":"account not found"}), 400
     
     if transaction_type == 'deposit' and transaction_amount > 0:
-    
+ 
         account.balance += transaction_amount
         new_transaction = Transaction(account_id=account.id, type=transaction_type, amount=transaction_amount)
         db.session.add(new_transaction)
@@ -165,13 +165,22 @@ def add_transaction():
         db.session.add(new_transaction)
         db.session.commit()
 
-    # if transaction_type == 'transfer' and recipient_email != user.email:
-    #     print(recipient)
-        # account.balance -= transaction_amount
-        # new_transaction = Transaction(account_id=account.id, type=transaction_type, amount=transaction_amount)
 
-        # db.session.add(new_transaction)
-        # db.session.commit()
+    if transaction_type == 'transfer' and account.balance >transaction_amount and user.email != recipient_email:
+        recipient = User.query.filter_by(email = recipient_email ).first()
+        print(recipient, recipient_email)
+
+        account.balance -= transaction_amount
+        new_transaction = Transaction(account_id=account.id, type=transaction_type, amount=transaction_amount)
+
+        recipient_acct = Account.query.filter_by(user_id = recipient.id).first()
+
+        recipient_transaction_mov = Transaction(account_id=recipient_acct.id, type = 'deposit', amount = transaction_amount)
+
+        recipient_acct.balance += transaction_amount
+        db.session.add(new_transaction)
+        db.session.add(recipient_transaction_mov)
+        db.session.commit()
     
 
     all_transactions = [transaction.serialize() for transaction in account.transactions]

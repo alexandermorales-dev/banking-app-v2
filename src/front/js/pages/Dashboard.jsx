@@ -58,7 +58,7 @@ const Dashboard = () => {
                 depositInputRef.current.value = ''
                 return
             }
-            const res = await actions.handleTransaction({ type: 'deposit', amount: depositInputRef.current.value, userId: currentUserObj.id })
+            const res = await actions.handleTransaction({ type: 'deposit', amount: Number(depositInputRef.current.value), userId: currentUserObj.id })
             depositInputRef.current.value = ''
             const data = await res
             return data
@@ -70,18 +70,17 @@ const Dashboard = () => {
                 withdrawInputRef.current.value = ''
                 return
             }
-            const res = await actions.handleTransaction({ type: 'withdraw', amount: withdrawInputRef.current.value, userId: currentUserObj.id })
+            const res = await actions.handleTransaction({ type: 'withdraw', amount: Number(withdrawInputRef.current.value), userId: currentUserObj.id })
             withdrawInputRef.current.value = ''
             const data = await res
             return data
 
         } else if (e.target.name === 'transfer') {
-            console.log(e.target.name)
-            const res = await actions.handleTransaction({ type: 'transfer', amount: transferAmountRef.current.value, userId: currentUserObj.id, recipientEmail: transferToRef.current.value })
-            transferAmountRef.current.value = ''
-            transferToRef.current.value = ''
-            const data = await res
-            return data
+            const res = await actions.handleTransaction({ type: 'transfer', amount: Number(transferAmountRef.current.value), userId: currentUserObj.id, recipientEmail: transferToRef.current.value })
+            // transferAmountRef.current.value = ''
+            // transferToRef.current.value = ''
+            // const data = await res.json()
+            // return data
 
 
         }
