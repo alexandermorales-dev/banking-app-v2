@@ -15,14 +15,12 @@ export const Navbar = () => {
 		const pass = passwordRef.current.value
 
 		const res = await actions.handleLogin({ email: email, password: pass })
-		console.log(res)
 		if (!res.token) {
 			const errorMsg = await res
 			alert(errorMsg)
 			navigate('/')
-			return 
+			return
 		}
-		// console.log(res.message)
 		navigate('/dashboard')
 	}
 	return (
