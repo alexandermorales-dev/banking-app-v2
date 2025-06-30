@@ -77,10 +77,10 @@ const Dashboard = () => {
 
         } else if (e.target.name === 'transfer') {
             const res = await actions.handleTransaction({ type: 'transfer', amount: Number(transferAmountRef.current.value), userId: currentUserObj.id, recipientEmail: transferToRef.current.value })
-            // transferAmountRef.current.value = ''
-            // transferToRef.current.value = ''
-            // const data = await res.json()
-            // return data
+            transferAmountRef.current.value = ''
+            transferToRef.current.value = ''
+            const data = await res.json()
+            return data
 
 
         }
