@@ -13,6 +13,10 @@ const Dashboard = () => {
 
     const depositInputRef = useRef(null)
     const withdrawInputRef = useRef(null)
+    const transferToRef = useRef(null)
+    const transferAmountRef = useRef(null)
+
+
 
 
     const loanRef = useRef(null)
@@ -70,6 +74,15 @@ const Dashboard = () => {
             withdrawInputRef.current.value = ''
             const data = await res
             return data
+
+        } else if (e.target.name === 'transfer') {
+            console.log(e.target.name)
+            const res = await actions.handleTransaction({ type: 'transfer', amount: transferAmountRef.current.value, userId: currentUserObj.id, recipientEmail: transferToRef.current.value })
+            transferAmountRef.current.value = ''
+            transferToRef.current.value = ''
+            const data = await res
+            return data
+
 
         }
     }
@@ -204,39 +217,6 @@ const Dashboard = () => {
 
 
                 <div className="row g-4 mb-4">
-                    {/* ACTIONS */}
-
-                    {/* <div className="card-group">
-                        <div className="card">
-                            <div className="row row-cols-1 row-cols-md-3 g-4"> */}
-                    {/* <div className="col">
-                                    <div className="card h-100 d-flex flex-column">
-                                        <div className="card-body d-flex flex-column">
-                                            <h5 className="card-title">Open account</h5>
-                                            <div className="py-4">
-                                                <div className="form-check form-check-inline">
-                                                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1" />
-                                                    <label className="form-check-label" htmlFor="exampleRadios1">
-                                                        USD
-                                                    </label>
-                                                </div>
-                                                <div className="form-check form-check-inline">
-                                                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2" />
-                                                    <label className="form-check-label" htmlFor="exampleRadios2">
-                                                        EUR
-                                                    </label>
-                                                </div>
-                                                <div className="form-check form-check-inline">
-                                                    <input className="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3" />
-                                                    <label className="form-check-label" htmlFor="exampleRadios3">
-                                                        VES
-                                                    </label>
-                                                </div>
-                                            </div>
-                                            <button type="button" className="btn btn-primary mx-2">Open Account</button>
-                                        </div>
-                                    </div>
-                                </div> */}
                     <div className="col-6">
                         <div className="card h-100 d-flex flex-column">
                             <div className="card-body d-flex flex-column">
@@ -265,9 +245,7 @@ const Dashboard = () => {
                             </div>
                         </div>
                     </div>
-                    {/* </div>
-                        </div>
-                    </div> */}
+
                     {/* SUMMARY */}
                     <div className="col-lg-6">
                         <div className="summary card shadow-sm rounded-3 p-4 h-100">
@@ -291,17 +269,17 @@ const Dashboard = () => {
                         {/* OPERATION: TRANSFERS */}
                         <div className="operation operation--transfer card shadow-sm rounded-3 p-4 mb-4 h-100">
                             <h2 className="card-title h5 mb-3">Transfer money</h2>
-                            <form className="form form--transfer row g-2 align-items-end">
+                            <form onSubmit={handleTransaction} className="form form--transfer row g-2 align-items-end" name="transfer">
                                 <div className="col-6">
-                                    <input type="text" className="form-control rounded-pill px-3 py-2 form__input--to" placeholder="Recipient" />
+                                    <input type="text" className="form-control rounded-pill px-3 py-2 form__input--to" placeholder="Recipient" ref={transferToRef} />
                                     <label className="form-label d-block text-muted mt-1 fs-7">Transfer to</label>
                                 </div>
                                 <div className="col-4">
-                                    <input type="number" className="form-control rounded-pill px-3 py-2 form__input--amount" placeholder="Amount" />
+                                    <input type="number" className="form-control rounded-pill px-3 py-2 form__input--amount" placeholder="Amount" ref={transferAmountRef} />
                                     <label className="form-label d-block text-muted mt-1 fs-7">Amount</label>
                                 </div>
                                 <div className="col-2">
-                                    <button className="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }}>&rarr;</button>
+                                    <button type="submit" className="btn btn-primary rounded-circle d-flex align-items-center justify-content-center"  style={{ width: '38px', height: '38px' }}>&rarr;</button>
                                 </div>
                             </form>
                         </div>

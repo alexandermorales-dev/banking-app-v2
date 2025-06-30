@@ -21,13 +21,17 @@ const Signup = () => {
     const handleCreateAccount = async (e) => {
         e.preventDefault()
         const res = await actions.createAccount(formData)
+        const data = await res.json()
+
         if (!res.ok) {
-            alert(res.message)
+            alert(data.message)
             return
         }
-        alert(res.message)
-        navigate('/')
+        alert(data.message)
+
         setFormData({ name: '', email: '', password: '', is_admin: false });
+        navigate('/')
+        return;
 
 
 

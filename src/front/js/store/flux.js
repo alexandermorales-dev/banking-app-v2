@@ -58,10 +58,14 @@ const getState = ({ getStore, getActions, setStore }) => {
 						body: JSON.stringify(dataToSend),
 					});
 
+					return res
+					// if (!res.ok) {
+					// 	const data = await res.json()
+					// 	return res
+					// }
 
-
-					const data = await res.json()
-					return data
+					// const data = await res.json()
+					// return data.message
 
 				} catch (error) {
 					console.log('this is the error: ', error)
