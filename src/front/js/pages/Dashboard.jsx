@@ -115,12 +115,17 @@ const Dashboard = () => {
         }
     };
 
+    const isMounted = useRef(true);
+
 
     useEffect(() => {
         setIsLoading(true)
 
         const handleDashboard = async () => {
             const success = await actions.handleDashboard(token)
+
+            if (!isMounted.current) return;
+
             if (!success || !token) {
                 setHasAccess(false)
                 alert('Please log in')
@@ -135,13 +140,17 @@ const Dashboard = () => {
             const formattedDate = new Intl.DateTimeFormat('en-US', options).format(today);
             setCurrentDate(formattedDate);
 
-            setTimeout(() => {
-                alert('session expired')
-                actions.handleLogout()
-                navigate('/')
-
+            const sessionTimeoutId = setTimeout(() => {
+                if (isMounted.current) {
+                    alert('session expired')
+                    navigate('/')
+                    actions.handleLogout()
+                }
             }, 300000);
-
+            return () => {
+                isMounted.current = false; 
+                clearTimeout(sessionTimeoutId); 
+            };
         }
 
         handleDashboard()
@@ -278,7 +287,7 @@ const Dashboard = () => {
                                     <label className="form-label d-block text-muted mt-1 fs-7">Amount</label>
                                 </div>
                                 <div className="col-2">
-                                    <button type="submit" className="btn btn-primary rounded-circle d-flex align-items-center justify-content-center"  style={{ width: '38px', height: '38px' }}>&rarr;</button>
+                                    <button type="submit" className="btn btn-primary rounded-circle d-flex align-items-center justify-content-center" style={{ width: '38px', height: '38px' }}>&rarr;</button>
                                 </div>
                             </form>
                         </div>

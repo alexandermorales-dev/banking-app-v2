@@ -95,8 +95,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 			},
 			handleLogout: () => {
+				const store = getStore()
 				localStorage.removeItem('token')
 				localStorage.removeItem('user')
+				setStore({ ...getStore(), hasAccess: false })
+
 				setStore({})
 			},
 			handleDashboard: async (token) => {
@@ -112,7 +115,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				const data = await res.json()
 				setStore({ ...getStore(), balance: data.balance, totalDeposits: data.deposits, totalWithdrawals: data.withdrawals, accountNumber: data.account_number, allTransactions: data.all_transactions })
-				console.log(data)
 				return data
 			},
 			handleTransaction: async (transactionData) => {
