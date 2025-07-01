@@ -141,7 +141,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 				}
 
 				const data = await res.json();
-				console.log(data)
 				setStore({ ...getStore(), balance: parseInt(data.new_balance), totalDeposits: parseInt(data.total_deposits), totalWithdrawals: parseInt(data.total_withdrawals), allTransactions: data.transactions })
 				return data;
 			},
