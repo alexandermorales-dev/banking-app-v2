@@ -76,6 +76,10 @@ const Dashboard = () => {
             return data
 
         } else if (e.target.name === 'transfer') {
+            if (Number(transferAmountRef.current.value) >= balance) {
+                alert('Transfer amount should be less than your current balance ')
+                return
+            }
             const res = await actions.handleTransaction({ type: 'transfer', amount: Number(transferAmountRef.current.value), userId: currentUserObj.id, recipientEmail: transferToRef.current.value })
             transferAmountRef.current.value = ''
             transferToRef.current.value = ''
@@ -279,7 +283,7 @@ const Dashboard = () => {
                             <h2 className="card-title h5 mb-3">Transfer money</h2>
                             <form onSubmit={handleTransaction} className="form form--transfer row g-2 align-items-end" name="transfer">
                                 <div className="col-6">
-                                    <input type="text" className="form-control rounded-pill px-3 py-2 form__input--to" placeholder="Recipient" ref={transferToRef} />
+                                    <input type="email" className="form-control rounded-pill px-3 py-2 form__input--to" placeholder="Recipient" ref={transferToRef} />
                                     <label className="form-label d-block text-muted mt-1 fs-7">Transfer to</label>
                                 </div>
                                 <div className="col-4">
