@@ -4,6 +4,8 @@ This project is a full-stack web application simulating basic banking functional
 
 ![image](https://github.com/user-attachments/assets/2a23913c-b50b-4811-a36b-a479de17bc62)
 
+![image](https://github.com/user-attachments/assets/36b72040-0297-4c2c-bbf4-322092034790)
+
 ![image](https://github.com/user-attachments/assets/2571b9d3-6d63-4e46-9d41-01c17b6b9a6c)
 
 ### ✨ Features
