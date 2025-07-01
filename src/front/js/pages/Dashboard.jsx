@@ -79,7 +79,7 @@ const Dashboard = () => {
             const res = await actions.handleTransaction({ type: 'transfer', amount: Number(transferAmountRef.current.value), userId: currentUserObj.id, recipientEmail: transferToRef.current.value })
             transferAmountRef.current.value = ''
             transferToRef.current.value = ''
-            const data = await res.json()
+            const data = await res
             return data
 
 
@@ -95,7 +95,7 @@ const Dashboard = () => {
         if (Number(loanRef.current.value) > 0 && Number(loanRef.current.value) < (balance * 0.10)) {
             console.log('loan is on its way')
             setTimeout(() => {
-                actions.handleTransaction({ type: 'deposit', amount: loanRef.current.value, userId: currentUserObj.id })
+                actions.handleTransaction({ type: 'deposit', amount: Number(loanRef.current.value), userId: currentUserObj.id })
                 loanRef.current.value = ''
             }, 3000);
         }
@@ -148,8 +148,8 @@ const Dashboard = () => {
                 }
             }, 300000);
             return () => {
-                isMounted.current = false; 
-                clearTimeout(sessionTimeoutId); 
+                isMounted.current = false;
+                clearTimeout(sessionTimeoutId);
             };
         }
 
