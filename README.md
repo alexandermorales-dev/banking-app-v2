@@ -1,6 +1,11 @@
 Modern Banking Application
 This project is a full-stack web application simulating basic banking functionalities, built with a modern technology stack including React for the frontend, Flask for the backend API, JWT for authentication, and SQLAlchemy for database interactions, styled with Bootstrap. It demonstrates effective client-server communication, secure authentication practices, and robust data management.
 
+
+![image](https://github.com/user-attachments/assets/2a23913c-b50b-4811-a36b-a479de17bc62)
+
+![image](https://github.com/user-attachments/assets/2571b9d3-6d63-4e46-9d41-01c17b6b9a6c)
+
 ### ✨ Features
 
 User Authentication: Secure login and registration with JSON Web Tokens (JWT).
@@ -90,7 +95,7 @@ It is recommended to install the backend first, make sure you have Python 3.8, P
 
 1. Install the Python packages: `$ pipenv install`
 2. Create a .env file based on the .env.example: `$ cp .env.example .env`
-3. Make sure you change the BACKEND variable to point to your actual route.
+3. Make sure that you change the `BACKEND_URL` variable in the `.env` file to point to your actual address.
 
 ### Front-End Manual Installation:
 
