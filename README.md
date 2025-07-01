@@ -1,81 +1,109 @@
-# WebApp boilerplate with React JS and Flask API
+Modern Banking Application
+This project is a full-stack web application simulating basic banking functionalities, built with a modern technology stack including React for the frontend, Flask for the backend API, JWT for authentication, and SQLAlchemy for database interactions, styled with Bootstrap. It demonstrates effective client-server communication, secure authentication practices, and robust data management.
 
-Build web applications using React.js for the front end and python/flask for your backend API.
+### ✨ Features
 
-- Documentation can be found here: https://start.4geeksacademy.com/starters/react-flask
-- Here is a video on [how to use this template](https://www.loom.com/share/f37c6838b3f1496c95111e515e83dd9b)
-- Integrated with Pipenv for package managing.
-- Fast deployment to heroku [in just a few steps here](https://start.4geeksacademy.com/backend/deploy-heroku-posgres).
-- Use of .env file.
-- SQLAlchemy integration for database abstraction.
+User Authentication: Secure login and registration with JSON Web Tokens (JWT).
+
+Account Management:
+
+Display current balance and recent transactions.
+
+Ability to transfer money between accounts.
+
+Request a loan (with a basic approval logic).
+
+Feature to close an account.
+
+Transaction History: View transaction history.
+
+Responsive UI: A user-friendly interface designed with Bootstrap for various screen sizes.
+
+### 💻 Technologies Used
+Frontend
+React.js: A JavaScript library for building dynamic and interactive user interfaces.
+
+React Router: For declarative routing and navigation within the Single Page Application.
+
+Bootstrap: A powerful CSS framework for responsive design and pre-built UI components, ensuring a polished look and feel.
+
+HTML5 & CSS3: For structuring and custom styling of the web application.
+
+JavaScript (ES6+): For all client-side logic, data manipulation, and interaction with the backend API.
+
+### Backend
+
+Python: The primary programming language for the server-side logic.
+
+Flask: A lightweight and flexible micro web framework for Python, used to build the RESTful API.
+
+Flask-SQLAlchemy: An extension for Flask that seamlessly integrates SQLAlchemy, simplifying database operations within the Flask application.
+
+SQLAlchemy: A robust SQL toolkit and Object-Relational Mapper (ORM) that provides a high-level, Pythonic way to interact with relational databases.
+
+Flask-JWT-Extended: A Flask extension providing comprehensive JSON Web Token (JWT) support for secure user authentication and authorization.
+
+SQLite: The relational database system used for persistent data storage.
+
+### 🚀 Key Concepts & Good Practices
+
+This project showcases a full-stack architecture with a strong emphasis on modern development practices:
+
+Frontend (React & Bootstrap)
+Component-Based Architecture: Building modular and reusable UI components with React for enhanced maintainability and scalability.
+
+Declarative UI: Designing the user interface in React where the UI describes the desired state, and React handles updates efficiently.
+
+State Management with React Hooks: Utilizing useState, useEffect, and useContext for effective and predictable application state management.
+
+Asynchronous Operations: Handling secure API requests (e.g., using fetch or axios) to communicate with the Flask backend.
+
+Responsive Design: Implementing responsive layouts and styling with Bootstrap to ensure optimal user experience across various devices.
+
+Backend (Flask, SQLAlchemy, JWT)
+RESTful API Design: Developing well-structured and consistent API endpoints for banking operations (e.g., /api/auth/login, /api/transactions, /api/accounts).
+
+Secure Authentication with JWT:
+
+Token-Based Authorization: Implementing a stateless authentication mechanism where signed JWTs issued upon login are used to authorize subsequent client requests.
+
+Protected Routes: Securing sensitive API endpoints that require a valid authentication token.
+
+Object-Relational Mapping (ORM) with SQLAlchemy:
+
+Pythonic Database Interactions: Defining database schemas and interacting with the database using Python objects, abstracting raw SQL queries.
+
+Atomic Transactions: Ensuring data integrity for critical operations like money transfers, where all related database changes are committed or rolled back together.
+
+Modular Application Structure: Organizing the Flask application into logical modules (e.g., blueprints, models, services) for better code organization and separation of concerns.
+
+Robust Error Handling: Implementing comprehensive error handling for API responses, database operations, and user input validation.
+
 
 ### 1) Installation:
 
-> If you use Github Codespaces (recommended) or Gitpod this template will already come with Python, Node and the Posgres Database installed. If you are working locally make sure to install Python 3.10, Node 
+> If you use Github Codespaces (recommended) or Gitpod, this template will already come with Python, Node, and the PostgreSQL  Database installed. If you are working locally, make sure to install Python 3.10, Node. 
 
-It is recomended to install the backend first, make sure you have Python 3.8, Pipenv and a database engine (Posgress recomended)
+### Back-End Manual Installation:
 
-1. Install the python packages: `$ pipenv install`
+It is recommended to install the backend first, make sure you have Python 3.8, Pipenv, and a database engine
+
+1. Install the Python packages: `$ pipenv install`
 2. Create a .env file based on the .env.example: `$ cp .env.example .env`
-3. Install your database engine and create your database, depending on your database you have to create a DATABASE_URL variable with one of the possible values, make sure you replace the valudes with your database information:
-
-| Engine    | DATABASE_URL                                        |
-| --------- | --------------------------------------------------- |
-| SQLite    | sqlite:////test.db                                  |
-| MySQL     | mysql://username:password@localhost:port/example    |
-| Postgress | postgres://username:password@localhost:5432/example |
-
-4. Migrate the migrations: `$ pipenv run migrate` (skip if you have not made changes to the models on the `./src/api/models.py`)
-5. Run the migrations: `$ pipenv run upgrade`
-6. Run the application: `$ pipenv run start`
-
-> Note: Codespaces users can connect to psql by typing: `psql -h localhost -U gitpod example`
-
-### Undo a migration
-
-You are also able to undo a migration by running
-
-```sh
-$ pipenv run downgrade
-```
-
-### Backend Populate Table Users
-
-To insert test users in the database execute the following command:
-
-```sh
-$ flask insert-test-users 5
-```
-
-And you will see the following message:
-
-```
-  Creating test users
-  test_user1@test.com created.
-  test_user2@test.com created.
-  test_user3@test.com created.
-  test_user4@test.com created.
-  test_user5@test.com created.
-  Users created successfully!
-```
-
-### **Important note for the database and the data inside it**
-
-Every Github codespace environment will have **its own database**, so if you're working with more people eveyone will have a different database and different records inside it. This data **will be lost**, so don't spend too much time manually creating records for testing, instead, you can automate adding records to your database by editing ```commands.py``` file inside ```/src/api``` folder. Edit line 32 function ```insert_test_data``` to insert the data according to your model (use the function ```insert_test_users``` above as an example). Then, all you need to do is run ```pipenv run insert-test-data```.
+3. Make sure you change the BACKEND variable to point to your actual route.
 
 ### Front-End Manual Installation:
 
--   Make sure you are using node version 14+ and that you have already successfully installed and runned the backend.
+-   Make sure you are using node version 14+ and that you have already successfully installed and run the backend.
 
 1. Install the packages: `$ npm install`
 2. Start coding! start the webpack dev server `$ npm run start`
 
-## Publish your website!
-
-This boilerplate it's 100% read to deploy with Render.com and Heroku in a matter of minutes. Please read the [official documentation about it](https://start.4geeksacademy.com/deploy).
+### 🛠️ How to Run
+1. To start the front-end `npm start`
+2. To start the back-end `pipenv run start`
+3. Make sure you make the ports public
 
 ### Contributors
 
-This template was built as part of the 4Geeks Academy [Coding Bootcamp](https://4geeksacademy.com/us/coding-bootcamp) by [Alejandro Sanchez](https://twitter.com/alesanchezr) and many other contributors. Find out more about our [Full Stack Developer Course](https://4geeksacademy.com/us/coding-bootcamps/part-time-full-stack-developer), and [Data Science Bootcamp](https://4geeksacademy.com/us/coding-bootcamps/datascience-machine-learning).
-
-You can find other templates and resources like this at the [school github page](https://github.com/4geeksacademy/).
+This template was built as part of the 4Geeks Academy
