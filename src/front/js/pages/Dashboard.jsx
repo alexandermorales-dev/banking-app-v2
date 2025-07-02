@@ -330,10 +330,7 @@ const Dashboard = () => {
                     </div>
                 </div>
 
-                {/* LOGOUT TIMER */}
-                <p className="logout-timer text-center text-muted mt-5">
-                    You will be logged out in <span className="timer fw-bold text-dark">05:00</span>
-                </p>
+
             </main>
         </div>
     );
