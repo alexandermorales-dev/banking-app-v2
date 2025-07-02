@@ -3,7 +3,8 @@ import { useState } from "react";
 import { useContext } from "react";
 import { Context } from "../store/appContext";
 import { useNavigate } from "react-router-dom";
-import { Navbar } from "../component/navbar";
+import bank from '../../img/bank-logo.png'
+
 
 const Signup = () => {
     const { actions, store } = useContext(Context)
@@ -37,11 +38,18 @@ const Signup = () => {
 
     }
     return <div>
-        <Navbar />
+        <nav className="navbar navbar-expand-lg bg-body-tertiary">
+            <div className="col-4 d-none d-lg-block">
+            </div>
 
+            <div className="col-2 col-md-4 col-lg-4 text-start order-0 text-center">
+                <a href="/"> <img src={bank} alt="logo" style={{ width: '50px' }} /></a>
+            </div>
+            <div></div>
+        </nav>
 
-        <div className="container-fluid d-flex justify-content-center align-items-center min-vh-100">
-            <form className="col card h-100 border-0 shadow rounded-4 p-4 text-center">
+        <div className="container-fluid d-flex justify-content-center mt-3">
+            <form className="col-8 card h-100 border-0 shadow rounded-4 p-4 text-center">
 
                 <div className="mb-3 row">
                     <label htmlFor="name" className="col-form-label text-start">Name</label>

@@ -79,8 +79,11 @@ def handle_login():
 
     user_found = User.query.filter_by(email=email).first()
 
+    if not email:
+        return jsonify({'message': 'Please type your email first'}), 404
+    
     if not user_found:
-        return jsonify({'message': 'email not found'}),404
+        return jsonify({'message': 'Email not found, please create an account first'}),404
 
     if check_password_hash(user_found.hash_password, password):
         access_token = create_access_token(identity=str(user_found.id))
