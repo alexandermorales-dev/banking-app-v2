@@ -50,7 +50,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			}, createAccount: async (dataToSend) => {
 
 				try {
-					const res = await fetch(process.env.BACKEND_URL + "api/signup", {
+					const res = await fetch(process.env.BACKEND_URL + "/api/signup", {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
@@ -68,7 +68,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			handleLogin: async (userData) => {
 
 				try {
-					const res = await fetch(process.env.BACKEND_URL + "api/login", {
+					const res = await fetch(process.env.BACKEND_URL + "/api/login", {
 						method: 'POST',
 						headers: {
 							'Content-Type': 'application/json',
@@ -103,7 +103,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({})
 			},
 			handleDashboard: async (token) => {
-				const res = await fetch(process.env.BACKEND_URL + "api/dashboard", {
+				const res = await fetch(process.env.BACKEND_URL + "/api/dashboard", {
 					method: 'GET',
 					headers: {
 						'Authorization': `Bearer ${token}`,
@@ -124,7 +124,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 					return;
 				}
 
-				const res = await fetch(process.env.BACKEND_URL + "api/transactions", {
+				const res = await fetch(process.env.BACKEND_URL + "/api/transactions", {
 					method: 'POST',
 					headers: {
 						'Authorization': `Bearer ${token}`,
