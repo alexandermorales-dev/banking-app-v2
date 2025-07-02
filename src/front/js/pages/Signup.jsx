@@ -41,7 +41,7 @@ const Signup = () => {
 
 
         <div className="container-fluid d-flex justify-content-center align-items-center min-vh-100">
-            <form className="col-6 card h-100 border-0 shadow rounded-4 p-4 text-center">
+            <form className="col card h-100 border-0 shadow rounded-4 p-4 text-center">
 
                 <div className="mb-3 row">
                     <label htmlFor="name" className="col-form-label text-start">Name</label>
@@ -62,9 +62,8 @@ const Signup = () => {
                     </div>
                 </div>
                 <div className="buttons">
-                    <button onClick={handleCreateAccount} className="btn btn-primary">Create new account</button>
-                    <button onClick={() => navigate('/')} className="btn btn-primary mx-2">Go back</button>
-
+                    <button onClick={handleCreateAccount} className="btn btn-primary mb-2 w-50">Create new account</button>
+                    <button onClick={() => navigate('/')} className="btn btn-primary mx-2 w-50">Go back</button>
                 </div>
             </form>
         </div>

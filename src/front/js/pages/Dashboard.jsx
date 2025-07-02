@@ -186,7 +186,7 @@ const Dashboard = () => {
                     <a href="/"> <img src={bank} alt="Logo" className="img-fluid" style={{ maxHeight: '45px' }} /></a>
 
 
-                    <button onClick={handleLogout} className="btn btn-danger border rounded-pill px-4 py-2 fw-semibold shadow-sm"> &larr;</button>
+                    <button onClick={handleLogout} className="btn btn-danger border rounded-pill px-4 py-2 fw-semibold shadow-sm"> Log out</button>
                 </div>
             </nav>
 
@@ -207,7 +207,7 @@ const Dashboard = () => {
                 </div>
 
                 {/* MOVEMENTS */}
-                <div className="movements card shadow-sm mb-4 rounded-3">
+                <div className="movements card shadow-sm mb-4 rounded-3 ">
                     {allTransactions.slice(-5).sort((a, b) => {
                         const dateA = new Date(a.transaction_date);
                         const dateB = new Date(b.transaction_date);
@@ -216,7 +216,7 @@ const Dashboard = () => {
                         {/* Movement Row 1 */ }
                         return <div key={transaction.id} className="movements__row d-flex justify-content-between align-items-center p-3 border-bottom">
                             <div className={`movements__type movements__type--${transaction.type} badge bg-${transaction.type == 'deposit' ? 'success' : 'danger'} text-uppercase py-2 px-3 rounded-pill fs-7`}>{transaction.type}</div>
-                            <div className="movements__date text-muted fs-7">{new Date(transaction.transaction_date).toLocaleString()}
+                            <div className="movements__date text-muted fs-7 text-center">{new Date(transaction.transaction_date).toLocaleString()}
 
                             </div>
                             <div className="movements__value fw-bold text-success fs-5">{new Intl.NumberFormat('en-US', {
