@@ -8,6 +8,19 @@ This project is a full-stack web application simulating basic banking functional
 
 ![image](https://github.com/user-attachments/assets/2571b9d3-6d63-4e46-9d41-01c17b6b9a6c)
 
+### 🛠️ How to Use
+
+Go to the testing site hosted in Render: https://banking-app-k9rz.onrender.com
+
+Create a sample account (name, email, password)
+
+Log in to Dashboard using the account created in the previous step
+
+Note:
+
+If you want to be able to use the Transfer functionality, you will need to create a recipient account first. 
+
+
 ### ✨ Features
 
 User Authentication: Secure login and registration with JSON Web Tokens (JWT).
@@ -109,7 +122,7 @@ It is recommended to install the backend first, make sure you have Python 3.8, P
 ### 🛠️ How to Run
 1. To start the front-end `npm start`
 2. To start the back-end `pipenv run start`
-3. Make sure you make the ports public
+3. Make sure you set the ports visibility to public
 
 ### Contributors
 
